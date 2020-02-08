@@ -1,4 +1,6 @@
-export default class blackBoxPlusInfo {
+
+export default class BlackBoxPlusInfo {
+
     header = 'BlackBox Plus';
     bookmarkletInfoId = 'bbox_plus_bookmarklet_info';
     infoElement;
