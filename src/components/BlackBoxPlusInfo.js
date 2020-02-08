@@ -163,7 +163,7 @@ export default class BlackBoxPlusInfo {
             console.debug(`There are ${collaboratedProjects.list.length} Collaboration Project entries `, collaboratedProjects);
             this.setStatusProcessing(`Clearing the ${collaboratedProjects.list.length} Collaboration Projects`);
             if (collaboratedProjects.list.length > 0) {
-                collaboratedProjects.list.forEach(function (element, index) {
+                collaboratedProjects.list.forEach((element, index) => {
                     this.setStatusProcessing(`Clearing #${index} ${element.projectName}`);
                     // $messagesSection.append('<p class="" data-projectid="${element.projectId}">Clearing the Marketplace Entry #{index} ${element.projectName}</p>');
                     console.debug(`Clearing the Collab Entry #${index} ${element.projectName}`, element); // Console.log doesn't actually work, they've set it to an empty function
