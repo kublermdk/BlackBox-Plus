@@ -1,8 +1,21 @@
 
 Webpack config created using https://createapp.dev/webpack
 
-Install using:
+With help from https://generatewebpackconfig.netlify.com/
 
-    npm install --save-dev webpack webpack-cli babel-loader @babel/core @babel/preset-env css-loader less-loader less style-loader
-    
+
+# Install using:
+
+    npm install
+
+# Build using
+
+The dev build, or production build (minified).
+
+    npm run build-dev
+    npm run build-prod
+
+Initially installed using:
+
+    npm install --save-dev webpack webpack-cli babel-loader @babel/core @babel/preset-env css-loader less-loader less style-loader @babel/plugin-proposal-class-properties
     
