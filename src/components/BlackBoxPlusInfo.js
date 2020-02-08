@@ -1,4 +1,3 @@
-
 export default class BlackBoxPlusInfo {
 
     header = 'BlackBox Plus';
@@ -26,7 +25,6 @@ export default class BlackBoxPlusInfo {
             bookmarkletInfoElement.insertAdjacentHTML('afterend', `<div id="${this.bookmarkletInfoId}" style="color: white; float: left; padding-top: 10px; overflow: overlay; position: absolute; width: 34%;"><h3 id="bbox_plus_header">BlackBox Plus</h3><p style="color: white"><strong id="bbox_plus_status" style="color: red">*</strong> &nbsp; <span id="bbox_plus_text" >Loading</span></p></div>`);
             console.log("Setup a 2nd Blackbox Plus info");
         }
-        this.bookmarkletInfoElement = document.getElementById(this.bookmarkletInfoId);
         this.infoHeaderElement = document.getElementById('bbox_plus_header');
         this.infoStatusElement = document.getElementById('bbox_plus_status');
         this.infoTextElement = document.getElementById('bbox_plus_text');
@@ -42,10 +40,10 @@ export default class BlackBoxPlusInfo {
 
     setStatus(text = '', colour = '') {
         if (text) {
-            infoTextElement.innerHTML = text;
+            this.infoTextElement.innerHTML = text;
         }
         if (colour) {
-            infoStatusElement.style.color = colour;
+            this.infoStatusElement.style.color = colour;
         }
     }
 
@@ -73,36 +71,36 @@ export default class BlackBoxPlusInfo {
     }
 
     getCanvas(context = true) {
-        var mdks_canvas = document.getElementById('mdks_canvas');
-        if (!mdks_canvas) {
-            mdks_bookmarklet_info.insertAdjacentHTML('beforeend', '<canvas id="mdks_canvas"></canvas>');
-            mdks_canvas = document.getElementById('mdks_canvas');
+        var bbox_plus_canvas = document.getElementById('bbox_plus_canvas');
+        if (!bbox_plus_canvas) {
+            this.infoElement.insertAdjacentHTML('beforeend', '<canvas id="bbox_plus_canvas"></canvas>');
+            bbox_plus_canvas = document.getElementById('bbox_plus_canvas');
         }
-        return context === true ? mdks_canvas.getContext('2d') : mdks_canvas;
+        return context === true ? bbox_plus_canvas.getContext('2d') : bbox_plus_canvas;
     }
 
     // -- Get Video Frame
     getVideoFrame() {
         // @todo: Ensure the video has started and can be played
-        var vid = document.getElementById('videoControl');
-        vid.pause();
+        let vid = document.getElementById('videoControl');
+        vid.pause(); // Don't need it playing whilst we are getting the frame
         let duration = vid.duration;
-        var context = getCanvas();
+        let context = getCanvas();
 
         context.drawImage(vid, 0, 0, 220, 150);
 
         // Create Image
-        var dataURL = getCanvas(false).toDataURL();
-        var img = document.createElement('img');
+        let dataURL = getCanvas(false).toDataURL();
+        let img = document.createElement('img');
         img.setAttribute('src', dataURL);
         // Append img in container div
-        mdks_bookmarklet_info.appendChild(img);
-        setTimeout(function () {
+        this.infoElement.appendChild(img);
+        setTimeout(() => {
             // Remove the images
-            mdks_bookmarklet_info.getElementsByTagName("img").forEach(function (img) {
+            this.infoElement.getElementsByTagName("img").forEach(function (img) {
                 img.remove();
-            })
-        }, 2000)
+            }); // Remove the images after a few seconds
+        }, 3000);
     };
 
     loadTensorFlow() {
