@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TensorFlow Test</title>
+    <!-- Load the latest version of TensorFlow.js -->
+    <script src="https://unpkg.com/@tensorflow/tfjs"></script>
+    <script src="https://unpkg.com/@tensorflow-models/mobilenet"></script>
+</head>
+<body>
+
+
+<div id="console">Loading</div>
+<!-- Add an image that we will use to test -->
+<!--<img id="img" crossorigin src="https://i.imgur.com/JlUvsxa.jpg" width="227" height="227"/> // Original Dog IMage-->
+<img id="img" crossorigin
+     src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+     width="500" height="750"/>
+
+<!-- Load index.js after the content of the page -->
+<!--<script src="index.js"></script>-->
+<script>
+    let net;
+    let output = document.getElementById('console');
+
+    async function app() {
+        console.log('Loading mobilenet..');
+        output.innerText = 'Processing';
+
+        // Load the model.
+        net = await mobilenet.load();
+        console.log('Successfully loaded model');
+        output.innerText = 'Loaded';
+
+        // Make a prediction through the model on our image.
+        const imgEl = document.getElementById('img');
+        const result = await net.classify(imgEl);
+        console.log(result, JSON.stringify(result));
+        // Example result: [{"className":"kelpie","probability":0.5259974598884583},{"className":"American Staffordshire terrier, Staffordshire terrier, American pit bull terrier, pit bull terrier","probability":0.19714318215847015},{"className":"malinois","probability":0.11266449093818665}]
+
+        output.innerHTML = 'Result: ' + result[0].className + '<br /><pre>' + JSON.stringify(result, null, 2) + '</pre>' || 'Unknown';
+    }
+
+    app();
+</script>
+</body>
+</html>
+</body>
+</html>
