@@ -9,7 +9,7 @@ const config = {
     },
     // devtool: "source-map", // Enable source mapping creation
     devtool: 'inline-source-map',// REMOVE IN PRODUCTION!
-    watch: true, // apply changes
+    // watch: true, // apply changes
     watchOptions: {
         aggregateTimeout: 300,
         // poll: 1000,
