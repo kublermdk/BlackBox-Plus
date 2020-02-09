@@ -4,3 +4,77 @@
   color: @primary-color;
   background-color: @bg;
 }
+
+
+/* The alert message box */
+.bbox_plus_flash_message {
+  position: fixed;
+  top: 200px;
+  left: 20px;
+  width: 200px;
+  display: block;
+  z-index: 9999;
+  padding: 10px;
+  border-radius: 6px;
+  color: white;
+  background: rgba(244, 67, 54, 0.8);
+  //color: darkgreen; // To be overwritten
+  border: 2px solid red;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+// Colours based on https://isabelcastillo.com/error-info-messages-css
+.bbox_plus_flash_message_type_success {
+  color: darkgreen;
+  background: rgba(144, 238, 144, 0.9);
+  border: darkgreen;
+}
+
+.bbox_plus_flash_message_type_warn {
+  color: #9F6000;
+  border-color: #9F6000;
+  background: rgba(254, 239, 179, 0.9)
+}
+
+.bbox_plus_flash_message_type_error {
+  color: #D8000C;
+  background: rgba(255, 186, 186, 0.9); // #FFBABA;
+  border-color: red;
+}
+
+//
+.bbox_plus_flash_message_type_info {
+  color: #31708f;
+  background: rgba(217, 237, 247, 0.9); // #d9edf7;
+  border-color: rgb(198, 219, 230); // or use #bce8f1;
+}
+
+//
+//.alert {
+//  padding: 20px;
+//  background-color: #f44336; /* Red */
+//  color: white;
+//  margin-bottom: 15px;
+//}
+
+
+/* The close button */
+.bbox_plus_flash_message_closebtn {
+  margin-left: 15px;
+  color: #999999;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+  //box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  box-shadow: 7px 4px 12px 3px rgba(0,0,0,0.69);
+  /* When moving the mouse over the close button */
+
+  &:hover {
+    color: black;
+    font-size: 27px
+  }
+}
+

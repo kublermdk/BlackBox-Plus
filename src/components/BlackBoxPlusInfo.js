@@ -1,3 +1,4 @@
+// @todo import zepto
 export default class BlackBoxPlusInfo {
 
     header = 'BlackBox Plus';
@@ -9,6 +10,8 @@ export default class BlackBoxPlusInfo {
     infoHeaderElement;
     authToken;
     memberId;
+    interfaceSection;
+    messagesSection;
     bbox_m_header_menu_id = 'm_header_menu';
 
     constructor(header = '') {
@@ -39,10 +42,66 @@ export default class BlackBoxPlusInfo {
         this.infoHeaderElement = document.getElementById('bbox_plus_header' + this.idPostfix);
         this.infoStatusElement = document.getElementById('bbox_plus_status' + this.idPostfix);
         this.infoTextElement = document.getElementById('bbox_plus_text' + this.idPostfix);
+        this.createFooterSection();
 
         if (header) {
             this.setHeader(header);
+            this.setInterface(`<h2>BlackBox Plus ${header}</h2>`);
         }
+        this.addMessage('<p>Initial Loading complete</p>');
+    }
+
+    createFooterSection() {
+        // let footer = $('footer')[0];
+        let footerWrapperElement = document.getElementById('bbox_plus_footer_wrapper');
+        let footerElement = document.getElementsByTagName('footer')[0] || null;
+        let interfaceSectionContent = `<div class="bbox_plus_interface_wrapper" style="float: left; margin-left: 10px; margin-bottom: 10px;"><div id="bbox_plus_interface_section${this.idPostfix}"></div><div id="bbox_plus_messages_section${this.idPostfix}"></div></div>`;
+        if (footerElement && footerWrapperElement) {
+            // Already installed before
+            // @todo: Make only 50% of the footer
+            footerWrapperElement.insertAdjacentHTML('beforeend', interfaceSectionContent);
+            $('.bbox_plus_interface_wrapper')[0].style.width = '48%';
+            $('.bbox_plus_interface_wrapper')[1].style.width = '48%';
+        } else if (footerElement) {
+            // Inserting the wrapper as well
+            footerElement.insertAdjacentHTML('afterend', `<div id="bbox_plus_footer_wrapper">${interfaceSectionContent}</div>`);
+        } else {
+            console.error("Issue trying to find the <footer> element");
+            throw new Error('Unable to create a Footer section, no footer element found');
+        }
+        this.interfaceSection = document.getElementById(`bbox_plus_interface_section${this.idPostfix}`);
+        this.messagesSection = document.getElementById(`bbox_plus_messages_section${this.idPostfix}`);
+    }
+
+    setInterface(html) {
+        this.interfaceSection.innerHTML = html;
+        return true;
+    }
+
+    addMessage(messageHTML) {
+        let existingHTML = this.messagesSection.innerHTML || '';
+        this.messagesSection.innerHTML = existingHTML + messageHTML;
+        return true;
+    }
+
+    /**
+     * Type should be one of 'info', 'success', 'warn', 'error'
+     * @param message
+     * @param type
+     */
+    addFlashMessage(message, type, autoRemove = true) {
+        // @todo: Implement something similar to https://www.w3schools.com/howto/howto_js_alert.asp
+        let messageHTML = `<div class="bbox_plus bbox_plus_flash_message bbox_plus_flash_message_type_${type}"><span class="bbox_plus_flash_message_closebtn" onclick="this.parentElement.style.display='none';">&times;</span>${message}</div>`;
+        let flashElement = document.createElement('div');
+        flashElement.innerHTML = messageHTML;
+        document.body.insertAdjacentElement('beforeend', flashElement);
+
+        if (true === autoRemove) {
+            setTimeout(() => {
+                flashElement.remove(); // @todo: fadeout instead
+            }, 6000);
+        }
+        return flashElement;
     }
 
     setHeader(header) {

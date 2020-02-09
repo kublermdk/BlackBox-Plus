@@ -1,9 +1,9 @@
-// import "./styles.less";
+import "./styles.less";
 import "regenerator-runtime/runtime";
 import BlackBoxPlusInfo from './components/blackBoxPlusInfo';
 
 
-window.blackboxPlusInfo = new BlackBoxPlusInfo();
+window.blackboxPlusInfo = new BlackBoxPlusInfo('Exporter');
 
 console.debug("Configuring BlackBox Plus");
 blackboxPlusInfo.setHeader('BB+ Exporter');
