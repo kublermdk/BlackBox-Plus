@@ -34,7 +34,7 @@ The [BlackBox Portal](https://portal.blackbox.global/) is the system used for de
 
 This will call the BlackBox API and create links so you can download the financial and stock footage data as CSV or JSON files. The CSV files can be opened up in a spreadsheet app, Google Docs, etc...
 
-Because this does calls to the BlackBox API thus adding load, it's recommended you don't abuse this.
+Because this makes multiple requests to the BlackBox API thus adding load to their servers, it's recommended you don't abuse this. That is, don't run it 10x an hour.
 
 ## Initial Keywording
 
