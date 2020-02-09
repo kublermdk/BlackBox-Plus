@@ -26,7 +26,7 @@ export default class BlackBoxPlusInfo {
                 this.addFlashMessage('Unable to find the Nav Menu, can\'t add BlackBox, wait until it\'s loaded and try again', 'error');
                 throw new Error('Unable to find the Nav Menu');
             }
-            nav.insertAdjacentHTML('afterend', `                   <div id="${this.bookmarkletInfoId}" class="bbox_plus_bookmarklet_info_wrapper" style="color: white; float: left; padding-top: 10px; position: absolute; left: 160px; width: 250px;"><h3 id="bbox_plus_header"                 class="bbox_plus_header">BlackBox Plus</h3><p style="color: white" class="bbox_plus_info_text_wrapper"><strong id="bbox_plus_status"                     style="color: red" class="bbox_plus_info_status">*</strong> &nbsp; <span id="bbox_plus_text"                   class="bbox_plus_info_text">Loading</span></p></div>`);
+            nav.insertAdjacentHTML('afterend', `                   <div id="${this.bookmarkletInfoId}" class="bbox_plus_bookmarklet_info_wrapper" style="color: white; float: left; padding-top: 10px; position: absolute; left: 150px; width: 270px;"><h3 id="bbox_plus_header"                 class="bbox_plus_header">BlackBox Plus</h3><p style="color: white" class="bbox_plus_info_text_wrapper"><strong id="bbox_plus_status"                     style="color: red" class="bbox_plus_info_status">*</strong> &nbsp; <span id="bbox_plus_text"                   class="bbox_plus_info_text">Loading</span></p></div>`);
             console.debug("Setup a Blackbox Plus info");
         } else {
             this.idPostfix = '_2';
@@ -37,7 +37,7 @@ export default class BlackBoxPlusInfo {
                 this.addFlashMessage('Unable to add a 3rd BlackBox Plus system', 'error');
                 throw new Error("Unable to add a 3rd BlackBox Plus system");
             }
-            bookmarkletInfoElement.insertAdjacentHTML('afterend', `<div id="${this.bookmarkletInfoId}" class="bbox_plus_bookmarklet_info_wrapper" style="color: white; float: left; padding-top: 10px; position: absolute; width: 250px; left: 415px;"><h3 id="bbox_plus_header${this.idPostfix}"  class="bbox_plus_header">BlackBox Plus</h3><p style="color: white" class="bbox_plus_info_text_wrapper"><strong id="bbox_plus_status${this.idPostfix}" style="color: red" class="bbox_plus_info_status">*</strong> &nbsp; <span id="bbox_plus_text${this.idPostfix}"  class="bbox_plus_info_text">Loading</span></p></div>`);
+            bookmarkletInfoElement.insertAdjacentHTML('afterend', `<div id="${this.bookmarkletInfoId}" class="bbox_plus_bookmarklet_info_wrapper" style="color: white; float: left; padding-top: 10px; position: absolute; width: 250px; left: 425px;"><h3 id="bbox_plus_header${this.idPostfix}"  class="bbox_plus_header">BlackBox Plus</h3><p style="color: white" class="bbox_plus_info_text_wrapper"><strong id="bbox_plus_status${this.idPostfix}" style="color: red" class="bbox_plus_info_status">*</strong> &nbsp; <span id="bbox_plus_text${this.idPostfix}"  class="bbox_plus_info_text">Loading</span></p></div>`);
             console.debug("Setup a 2nd Blackbox Plus info");
         }
         this.infoElement = document.getElementById(this.bookmarkletInfoId);
@@ -50,7 +50,7 @@ export default class BlackBoxPlusInfo {
             this.setHeader(header);
             this.setInterface(`<h2>BlackBox Plus ${header}</h2>`);
         }
-        this.addMessage('<p>Initial Loading complete</p>');
+        // this.addMessage('<p>Initial Loading complete</p>');
     }
 
     createFooterSection() {
@@ -260,6 +260,70 @@ export default class BlackBoxPlusInfo {
             "method": method,
             "mode": "cors"
         };
+    }
+
+
+    getFormattedDate() {
+        // e.g 2012-09-05th 09_02AM Based on https://www.willmaster.com/library/generators/date-and-time-formatting.php using {Y}-{M}-{D} {h}_{m}{ap}
+        let now = new Date(); // This current millisecond on user's computer.
+        let format = "{Y}-{M}-{D}{st} {h}_{m}{ap}";
+        let Month = '';
+        Month = now.getMonth() + 1;
+        if (Month < 10) {
+            Month = "0" + Month;
+        }
+        format = format.replace(/{M}/g, Month);
+
+        // Month Day
+        let Mday = '';
+        Mday = now.getDate();
+        if (Mday < 10) {
+            Mday = "0" + Mday;
+        }
+        format = format.replace(/{D}/g, Mday);
+
+
+        // St day suffix (Michael Kubler's custom addition)
+        // e.g 1st, 2nd, 3rd, 4th, 5th ...
+        let st = 'th';
+        let MdaySingle = now.getDate();
+        if (MdaySingle < 4) {
+            if (MdaySingle === 3) {
+                st = 'rd';
+            } else if (MdaySingle === 2) {
+                st = 'nd';
+            } else if (MdaySingle === 1) {
+                st = 'st';
+            }
+        }
+        format = format.replace(/{st}/g, st);
+
+
+        let Year = '';
+        Year = now.getFullYear();
+        format = format.replace(/{Y}/g, Year);
+        let h = now.getHours();
+        let ap = '';
+        let pm = (h > 11);
+        if (h > 12) {
+            h -= 12;
+        }
+        ap = pm ? "PM" : "AM";
+        format = format.replace(/{ap}/g, ap);
+        let hh = '';
+        if (h < 10) {
+            hh = "0" + h;
+        } else {
+            hh = h;
+        }
+        format = format.replace(/{h}/g, hh);
+        let mm = '';
+        mm = now.getMinutes();
+        if (mm < 10) {
+            mm = "0" + mm;
+        }
+        format = format.replace(/{m}/g, mm);
+        return format;
     }
 
 }

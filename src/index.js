@@ -24,9 +24,24 @@ blackBoxPlusExport.setStatusProcessing('Initial Setup');
         const blackBoxPlusFootage = window.blackBoxPlusFootage;
     }
 
-    blackBoxPlusExport.setStatusDone(`loaded all the footage info.`);
     // blackBoxPlusExport.addMessage('<h2>Footage data is: </h2><code>' + JSON.stringify(blackBoxPlusFootage) + `</code>`);
-    blackBoxPlusExport.addMessage(`<h2>Footage data</h2><p>Contains:<br />Workspace Items: ${blackBoxPlusFootage.curation.length}<br />Curation Items: ${blackBoxPlusFootage.content.length}<br />Submitted Content Items: ${blackBoxPlusFootage.content.length}<br /></p>`); // <code>' + JSON.stringify(blackBoxPlusExport.content.length) + `</code>
+    blackBoxPlusExport.setInterface(`<h2>Footage data</h2>
+<p>Click the links below to download the:<br />
+${blackBoxPlusFootage.contribute.length} Workspace Items as <a href="" class="bbox_plus_download_link bbox_plus_download_json" id="bbox_plus_download_workspace_items_contribute_json">.json</a><br />
+${blackBoxPlusFootage.curation.length} Curation Items as <a href=""  class="bbox_plus_download_link bbox_plus_download_json" id="bbox_plus_download_workspace_items_curation_json">.json</a><br />
+${blackBoxPlusFootage.content.length} Submitted Content Items as <a href=""  class="bbox_plus_download_link bbox_plus_download_json" id="bbox_plus_download_workspace_items_content_json">.json</a><br />
+Or All Footage Items as <a href="" class="bbox_plus_download_link bbox_plus_download_json" id="bbox_plus_download_workspace_items_all_json">.json</a><br />
+</p>`);
+
+
+    let dateFormat = blackBoxPlusExport.getFormattedDate(); // e.g 2012-09-05th 09:02AM Based on https://www.willmaster.com/library/generators/date-and-time-formatting.php using {Y}-{M}-{D}{st} {h}:{m}{ap}
+    blackBoxPlusExport.makeLinkElementDownloadJson($('#bbox_plus_download_workspace_items_contribute_json')[0], blackBoxPlusFootage.contribute, `${dateFormat} BlackBox Contribute Workspace Items`);
+    blackBoxPlusExport.makeLinkElementDownloadJson($('#bbox_plus_download_workspace_items_curation_json')[0], blackBoxPlusFootage.curation, `${dateFormat} BlackBox Curation Items`);
+    blackBoxPlusExport.makeLinkElementDownloadJson($('#bbox_plus_download_workspace_items_content_json')[0], blackBoxPlusFootage.content, `${dateFormat} BlackBox Content Items`);
+    blackBoxPlusExport.makeLinkElementDownloadJson($('#bbox_plus_download_workspace_items_all_json')[0], blackBoxPlusFootage, `${dateFormat} BlackBox All Footage Items`);
+    blackBoxPlusExport.setStatusDone(`<span onClick="window.scrollTo(0,document.body.scrollHeight);">View the links in the footer</span>`);
+    scrollTo(0,document.body.scrollHeight);
+
 
     // If we want to Dedupe the contents, best option seems to be doing it based on footageId?
     // https://wsvincent.com/javascript-remove-duplicates-array/
@@ -35,11 +50,6 @@ blackBoxPlusExport.setStatusProcessing('Initial Setup');
     // });
     // let uniqueFootageIds = [...new Set(footageIds)];
 
-
-    // @todo Create a list of the filenames
-
-    let fullDownloadLink = blackBoxPlusExport.returnDownloadLinkElement(JSON.stringify(blackBoxPlusFootage, null, 2), 'footage.json', 'application/json');
-    blackBoxPlusExport.infoHeaderElement.appendChild(fullDownloadLink);
 
 })();
 

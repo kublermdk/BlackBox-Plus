@@ -183,6 +183,39 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
         }
     }
 
+
+    /**
+     * Make Link Element Download
+     *
+     * Give it an existing A Href element and turn it into a link to a file download
+     *
+     * @param element
+     * @param content
+     * @param fileName
+     * @param contentType
+     * @returns {*}
+     */
+    makeLinkElementDownload(element, content, fileName, contentType) {
+        let file = new Blob([content], {type: contentType});
+        element.href = URL.createObjectURL(file);
+        element.download = fileName;
+        return element; // Don't actually need the returned element
+    }
+
+
+    /**
+     * Make Link Element Download Json
+     *
+     * Give it a link element, the array, object or whatever, plus the filename
+     * @param element
+     * @param jsonContent
+     * @param fileName
+     */
+    makeLinkElementDownloadJson(element, jsonContent, fileName = 'BlackBox.json') {
+        return this.makeLinkElementDownload(element, JSON.stringify(jsonContent, null, 2), fileName + '.json', 'application/json');
+    }
+
+    // If you want an element
     returnDownloadLinkElement(content, fileName, contentType) {
         let a = document.createElement("a");
         let file = new Blob([content], {type: contentType});
