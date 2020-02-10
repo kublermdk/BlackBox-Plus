@@ -2,17 +2,21 @@
 
 Created by [Michael Kubler](https://www.kublermdk.com/) of [Grey Phoenix Productions](https://www.greyphoenix.biz/)
 
+Source code [Available on Github](https://github.com/kublermdk/BlackBox-Plus) 
+
+
 You need to drag and drop the bookmarks below into your browser toolbar. Then when you are on the portal.blackbox website you can click on one to activate the feature.
 
 Every time you refresh the page, you'll need to click the bookmarklet again to load it up.
 
 ## Bookmarklets
 
-@todo: Create working bookmarklet links that people can use
 
 @todo: Create gif/images which explain to people how to use them.
 
-1. Data Export
+1. <a href="javascript:(function () {console.debug('Loading BlackBox Plus Exporter');let script = document.createElement('script');script.src = 'https://blackboxplus.greyphoenix.biz/dist/export.js';document.head.appendChild(script);})();">BB+ Data Export</a>
+
+Still coming:
 2. Initial Keywording
 3. Thesaurus
 
@@ -34,7 +38,7 @@ The [BlackBox Portal](https://portal.blackbox.global/) is the system used for de
 
 This will call the BlackBox API and create links so you can download the financial and stock footage data as CSV or JSON files. The CSV files can be opened up in a spreadsheet app, Google Docs, etc...
 
-Because this makes multiple requests to the BlackBox API thus adding load to their servers, it's recommended you don't abuse this. That is, don't run it 10x an hour.
+Because this makes multiple requests to the BlackBox API thus adding load to their servers, it's recommended you don't abuse this. e.g Don't use it 10x an hour.
 
 ## Initial Keywording
 
@@ -88,4 +92,4 @@ Copyright 2020 Michael Kubler
 Ideally BlackBox will integrate some of these features into their website and you won't need to use this anymore.
 Alternatively BlackBox may choose to disable this functionality, in which case, talk to Pat about it.
 
-The code provided here is available open source, especially for openness and transparency.
+The [code provided here](https://github.com/kublermdk/BlackBox-Plus) is available open source, especially for openness and transparency.

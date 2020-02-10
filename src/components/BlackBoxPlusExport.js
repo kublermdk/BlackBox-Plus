@@ -327,6 +327,18 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
     }
 
     /**
+     * Make Link Element Download CSV
+     *
+     * Give it a link element, the array, object or whatever, plus the filename
+     * @param element
+     * @param csvContent
+     * @param fileName
+     */
+    makeLinkElementDownloadCsv(element, csvContent, fileName = 'BlackBox.json') {
+        return this.makeLinkElementDownload(element, csvContent, fileName + '.csv', 'text/csv');
+    }
+
+    /**
      *
      * If you want a new A link element
      * But mostly so you can have it automatically clicked and start the download

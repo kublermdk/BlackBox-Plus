@@ -1,15 +1,19 @@
 const webpack = require('webpack');
 const path = require('path');
+const MarkdownPlugin = require('markdown-html-webpack-plugin');
 
 const config = {
-    entry: './src/index.js',
+    entry: {
+        export: './src/export.js',
+        initialKeywordingTensorflow: './src/initialKeywording-Tensorflow.js',
+        // readme: './README.md'
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js'
+        filename: '[name].js',
     },
     // devtool: "source-map", // Enable source mapping creation
     devtool: 'inline-source-map',// REMOVE IN PRODUCTION!
-    // watch: true, // apply changes
     watchOptions: {
         aggregateTimeout: 300,
         // poll: 1000,
@@ -29,8 +33,33 @@ const config = {
                     'css-loader',
                     'less-loader'
                 ]
-            }
+            },
+            // {
+            //     // Convert the README.md file to HTML
+            //     // Uses `npm install markdown-loader html-loader`
+            //     test: /\.md$/,
+            //     use: [
+            //         {
+            //             loader: "html-loader"
+            //         },
+            //         {
+            //             loader: "markdown-loader",
+            //             options: {
+            //                 /* your options here */
+            //             }
+            //         }
+            //     ],
+            //     exclude: /node_modules/
+            // }
         ]
-    }
+    },
+    // plugins: [
+    //     new MarkdownPlugin({
+    //         filePath: './',
+    //         exportPath: './dist/',
+    //         isEncodeName: false, // if need to encode file name, like chinese
+    //         template: '../src/index.html'
+    //     }),
+    // ]
 };
 module.exports = config;

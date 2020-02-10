@@ -1,4 +1,10 @@
-// @todo import zepto
+// @todo import zepto?
+
+/**
+ * =================================================================
+ *  The base component
+ * =================================================================
+ */
 export default class BlackBoxPlusInfo {
 
     header = 'BlackBox Plus';
@@ -17,7 +23,6 @@ export default class BlackBoxPlusInfo {
     constructor(header = '') {
         // If there's already another bookmarklet initiated then create another
         let bookmarkletInfoElement = document.getElementById(this.bookmarkletInfoId);
-        // let bookmarkletInfoElement = document.getElementById('bbox_plus_bookmarklet_info');
 
         if (!bookmarkletInfoElement) {
             console.debug("Setting up " + this.bbox_m_header_menu_id);
@@ -168,7 +173,6 @@ export default class BlackBoxPlusInfo {
     dynamicallyLoadScript(url) {
         var script = document.createElement("script");  // create a script DOM node
         script.src = url;  // set its src to the provided URL
-
         document.head.appendChild(script);  // add it to the end of the head section of the page (could change 'head' to 'body' to add it to the end of the body section instead)
     }
 

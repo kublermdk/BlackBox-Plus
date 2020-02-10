@@ -3,7 +3,7 @@ import "regenerator-runtime/runtime";
 // import BlackBoxPlusInfo from './components/blackBoxPlusInfo';
 // window.blackboxPlusInfo = new BlackBoxPlusInfo('Exporter');
 import BlackBoxPlusExport from './components/BlackBoxPlusExport';
-
+import {json2csvAsync} from 'json-2-csv';
 
 var blackBoxPlusExport = new BlackBoxPlusExport('Data Exporter');
 window.blackBoxPlusExport = blackBoxPlusExport;
@@ -24,11 +24,12 @@ blackBoxPlusExport.setStatusProcessing('Initial Setup');
 
     // blackBoxPlusExport.addMessage('<h2>Footage data is: </h2><code>' + JSON.stringify(blackBoxPlusFootage) + `</code>`);
     let linkhrefAndClassesJson = `href="" class="bbox_plus_download_link bbox_plus_download_json"`;
+    let linkhrefAndClassesCsv = `href="" class="bbox_plus_download_link bbox_plus_download_csv"`;
     blackBoxPlusExport.setInterface(`<h2>BlackBox Plus - Data Export</h2>
 <p>Click the links below to download the:<br />
 ${blackBoxPlusFootage.contribute.length} Workspace Items as <a ${linkhrefAndClassesJson} id="bbox_plus_download_workspace_items_contribute_json">.json</a><br />
 ${blackBoxPlusFootage.curation.length} Curation Items as <a ${linkhrefAndClassesJson} id="bbox_plus_download_workspace_items_curation_json">.json</a><br />
-${blackBoxPlusFootage.content.length} Submitted Content Items as <a ${linkhrefAndClassesJson} id="bbox_plus_download_workspace_items_content_json">.json</a><br />
+${blackBoxPlusFootage.content.length} Submitted Content Items as <a ${linkhrefAndClassesJson} id="bbox_plus_download_workspace_items_content_json">.json</a> as <a ${linkhrefAndClassesCsv} id="bbox_plus_download_workspace_items_content_csv">.csv</a><br />
 Or All Footage Items as <a ${linkhrefAndClassesJson} id="bbox_plus_download_workspace_items_all_json">.json</a><br />
 <br />
 <h2>Financial Summary</h2>
@@ -38,7 +39,18 @@ Unpaid Earnings List (recently sold but not yet paid) as <a ${linkhrefAndClasses
 </p>`);
 
 
+
+    // ----------------------------------------------------------------------------
+    //   CSV
+    // ----------------------------------------------------------------------------
+    let csv = await json2csvAsync(blackBoxPlusFootage.content, {expandArrayObjects: true});
+    console.debug('CSV is ', csv);
     let dateFormat = blackBoxPlusExport.getFormattedDate(); // e.g 2012-09-05th 09:02AM Based on https://www.willmaster.com/library/generators/date-and-time-formatting.php using {Y}-{M}-{D}{st} {h}:{m}{ap}
+    blackBoxPlusExport.makeLinkElementDownloadCsv($('#bbox_plus_download_workspace_items_content_csv')[0], csv, `${dateFormat} BlackBox Contribute Workspace Items`);
+
+    // ----------------------------------------------------------------------------
+    //   JSON
+    // ----------------------------------------------------------------------------
     blackBoxPlusExport.makeLinkElementDownloadJson($('#bbox_plus_download_workspace_items_contribute_json')[0], blackBoxPlusFootage.contribute, `${dateFormat} BlackBox Contribute Workspace Items`);
     blackBoxPlusExport.makeLinkElementDownloadJson($('#bbox_plus_download_workspace_items_curation_json')[0], blackBoxPlusFootage.curation, `${dateFormat} BlackBox Curation Items`);
     blackBoxPlusExport.makeLinkElementDownloadJson($('#bbox_plus_download_workspace_items_content_json')[0], blackBoxPlusFootage.content, `${dateFormat} BlackBox Content Items`);
