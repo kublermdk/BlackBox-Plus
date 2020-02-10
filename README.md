@@ -68,15 +68,24 @@ Michael will do what he can to ensure the code works well and doesn't cause any 
 
 Please note, certain services, such as the Google Machine learning calls come with associated costs. Others, like the Tensorflow model require 20MB downloads. The analytics system uploads your images and submitted keywords in order to create better trained models and improve the system overall.
 
-Ideally BlackBox will integrate some of these features into their website and you won't need to use this anymore.
-Alternatively BlackBox may choose to disable this functionality, in which case, talk to Pat about it.
+### Imagery Access
+
+By using the `Initial Keywording` system you agree to provide [**G**rey **P**hoenix **P**roductions](https://www.greyphoenix.biz) (the creator of the BlackBox Plus system) authorised uses to the images used and submitted keyword information.
+This information can then be used to create better quality machine learning training models and in turn better keywords.
 
 
-
-Full Legals:
+## Full Legals:
 
 Copyright 2020 Michael Kubler
 
 > Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
 
 > THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+## Other notes
+
+Ideally BlackBox will integrate some of these features into their website and you won't need to use this anymore.
+Alternatively BlackBox may choose to disable this functionality, in which case, talk to Pat about it.
+
+The code provided here is available open source, especially for openness and transparency.

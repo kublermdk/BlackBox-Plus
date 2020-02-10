@@ -50,6 +50,7 @@ export default class BlackBoxPlusInfo {
             this.setHeader(header);
             this.setInterface(`<h2>BlackBox Plus ${header}</h2>`);
         }
+        this.addMessage(`<hr /><h3>Messages</h3>`);
         // this.addMessage('<p>Initial Loading complete</p>');
     }
 
@@ -263,10 +264,10 @@ export default class BlackBoxPlusInfo {
     }
 
 
-    getFormattedDate() {
+    getFormattedDate(format = "{Y}-{M}-{D}{st} {h}_{m}{ap}", now = null) {
         // e.g 2012-09-05th 09_02AM Based on https://www.willmaster.com/library/generators/date-and-time-formatting.php using {Y}-{M}-{D} {h}_{m}{ap}
-        let now = new Date(); // This current millisecond on user's computer.
-        let format = "{Y}-{M}-{D}{st} {h}_{m}{ap}";
+        // let format = "{Y}-{M}-{D}{st} {h}_{m}{ap}";
+        now = now || new Date(); // This current millisecond on user's computer.
         let Month = '';
         Month = now.getMonth() + 1;
         if (Month < 10) {

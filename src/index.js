@@ -16,21 +16,25 @@ blackBoxPlusExport.setStatusProcessing('Initial Setup');
 
 
     if (!window.blackBoxPlusFootage) {
-
-        const blackBoxPlusFootage = await blackBoxPlusExport.getAllFootage();
-        window.blackBoxPlusFootage = blackBoxPlusFootage;
-
-    } else {
-        const blackBoxPlusFootage = window.blackBoxPlusFootage;
+        window.blackBoxPlusFootage = await blackBoxPlusExport.getAllFootage();
+    }
+    if (!window.blackBoxPlusFinancials) {
+        window.blackBoxPlusFinancials = await blackBoxPlusExport.getAllFinancials();
     }
 
     // blackBoxPlusExport.addMessage('<h2>Footage data is: </h2><code>' + JSON.stringify(blackBoxPlusFootage) + `</code>`);
-    blackBoxPlusExport.setInterface(`<h2>Footage data</h2>
+    let linkhrefAndClassesJson = `href="" class="bbox_plus_download_link bbox_plus_download_json"`;
+    blackBoxPlusExport.setInterface(`<h2>BlackBox Plus - Data Export</h2>
 <p>Click the links below to download the:<br />
-${blackBoxPlusFootage.contribute.length} Workspace Items as <a href="" class="bbox_plus_download_link bbox_plus_download_json" id="bbox_plus_download_workspace_items_contribute_json">.json</a><br />
-${blackBoxPlusFootage.curation.length} Curation Items as <a href=""  class="bbox_plus_download_link bbox_plus_download_json" id="bbox_plus_download_workspace_items_curation_json">.json</a><br />
-${blackBoxPlusFootage.content.length} Submitted Content Items as <a href=""  class="bbox_plus_download_link bbox_plus_download_json" id="bbox_plus_download_workspace_items_content_json">.json</a><br />
-Or All Footage Items as <a href="" class="bbox_plus_download_link bbox_plus_download_json" id="bbox_plus_download_workspace_items_all_json">.json</a><br />
+${blackBoxPlusFootage.contribute.length} Workspace Items as <a ${linkhrefAndClassesJson} id="bbox_plus_download_workspace_items_contribute_json">.json</a><br />
+${blackBoxPlusFootage.curation.length} Curation Items as <a ${linkhrefAndClassesJson} id="bbox_plus_download_workspace_items_curation_json">.json</a><br />
+${blackBoxPlusFootage.content.length} Submitted Content Items as <a ${linkhrefAndClassesJson} id="bbox_plus_download_workspace_items_content_json">.json</a><br />
+Or All Footage Items as <a ${linkhrefAndClassesJson} id="bbox_plus_download_workspace_items_all_json">.json</a><br />
+<br />
+<h2>Financial Summary</h2>
+Financial Summary as <a ${linkhrefAndClassesJson} id="bbox_plus_download_financial_summary_json">.json</a><br />
+Earnings Summary as <a ${linkhrefAndClassesJson} id="bbox_plus_download_financial_earnings_summary_json">.json</a><br />
+Unpaid Earnings List (recently sold but not yet paid) as <a ${linkhrefAndClassesJson} id="bbox_plus_download_unpaid_earnings_json">.json</a><br />
 </p>`);
 
 
@@ -39,8 +43,11 @@ Or All Footage Items as <a href="" class="bbox_plus_download_link bbox_plus_down
     blackBoxPlusExport.makeLinkElementDownloadJson($('#bbox_plus_download_workspace_items_curation_json')[0], blackBoxPlusFootage.curation, `${dateFormat} BlackBox Curation Items`);
     blackBoxPlusExport.makeLinkElementDownloadJson($('#bbox_plus_download_workspace_items_content_json')[0], blackBoxPlusFootage.content, `${dateFormat} BlackBox Content Items`);
     blackBoxPlusExport.makeLinkElementDownloadJson($('#bbox_plus_download_workspace_items_all_json')[0], blackBoxPlusFootage, `${dateFormat} BlackBox All Footage Items`);
+    blackBoxPlusExport.makeLinkElementDownloadJson($('#bbox_plus_download_financial_summary_json')[0], blackBoxPlusFinancials.financialSummaryInfo, `${dateFormat} BlackBox Financial Summary Info`);
+    blackBoxPlusExport.makeLinkElementDownloadJson($('#bbox_plus_download_financial_earnings_summary_json')[0], blackBoxPlusFinancials.financialEarningsSummary, `${dateFormat} BlackBox Financial Earnings Summary Info`);
+    blackBoxPlusExport.makeLinkElementDownloadJson($('#bbox_plus_download_unpaid_earnings_json')[0], blackBoxPlusFinancials.unpaidEarnings, `${dateFormat} BlackBox Unpaid Earnings Summary Info`);
     blackBoxPlusExport.setStatusDone(`<span onClick="window.scrollTo(0,document.body.scrollHeight);">View the links in the footer</span>`);
-    scrollTo(0,document.body.scrollHeight);
+    scrollTo(0, document.body.scrollHeight);
 
 
     // If we want to Dedupe the contents, best option seems to be doing it based on footageId?

@@ -5,20 +5,18 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
 
     // https://portal.blackbox.global/api/member/5afd6163-a82a-4079-8e3b-592c349ae72d/contribute/footage?index=11&limit=10
     countInTabs;
+    urlBaseCache;
 
-    async getCountInTabs() {
-        if (!this.countInTabs) {
-            let memberId = this.getMemberId();
+    /**
+     * getCountInTabs()
+     *
+     * @returns {Promise<*>}
+     * Example this.countInTabs = {"countContributeFootages":115,"countCurationFootages":0,"countContentFootages":658}
+     */
+    async getCountInTabs(force = false) {
+        if (!this.countInTabs || true === force) {
             this.setStatusLoading(`the count of items`);
-            let url = `https://portal.blackbox.global/api/member/${memberId}/footage/count_in_tabs`; // How many items?
-            let headers = this.getAPICallHeaders('GET');
-            let countInTabsResponse = await fetch(url, headers);
-            if (false === countInTabsResponse.ok) {
-                this.setStatusError('Not able to get a count of how much footage you have');
-                this.addFlashMessage(`Error: Unable to access the footage/count_in_tabs API endpoint`);
-                return footage;
-            }
-            this.countInTabs = await countInTabsResponse.json();
+            this.countInTabs = await this.callAPI(`/footage/count_in_tabs`);
             console.debug("The countInTabs is: ", this.countInTabs);
         }
         return this.countInTabs;
@@ -98,7 +96,7 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
         // https://portal.blackbox.global/api/member/${memberId}/project/${element.projectId}/`, headers);
         // https://portal.blackbox.global/api/member/5afd6163-a82a-4079-8e3b-592c349ae72d/contribute/footage?index=11&limit=10
 
-        // Example Response: {"success":true,"data":{"list":[{"footageId":"62754493-ccc1-4672-bcf7-afdd1481ee09","memberId":"5afd6163-a82a-4079-8e3a-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3a-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0025.mp4","createdAt":"2020-01-02T05:49:36.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"9c0c0baa-c715-4e2e-90b2-e92b30581b8c","memberId":"5afd6163-a82a-4079-8e3a-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3a-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0050.mp4","createdAt":"2020-01-02T05:39:24.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"ac7a8997-7977-4861-8cdd-553b5d7fc35b","memberId":"5afd6163-a82a-4079-8e3a-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3a-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0049.mp4","createdAt":"2020-01-02T05:37:20.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"98614246-2c40-4b9f-855b-a5a220f66a18","memberId":"5afd6163-a82a-4079-8e3a-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3a-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0027.mp4","createdAt":"2020-01-02T05:31:00.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"72a038ab-c6d1-441a-9a43-8f29a994eb26","memberId":"5afd6163-a82a-4079-8e3a-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3a-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0048.mp4","createdAt":"2020-01-02T05:27:22.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"20d41152-fc72-4826-9999-cd68e2646927","memberId":"5afd6163-a82a-4079-8e3a-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3a-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0046.mp4","createdAt":"2020-01-02T05:25:09.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"3578ecb0-ca2e-4460-93df-d7fe8abac275","memberId":"5afd6163-a82a-4079-8e3a-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3a-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0047.mp4","createdAt":"2020-01-02T05:21:57.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"2f3b4369-6ba0-478a-8b9b-1147d555c8cf","memberId":"5afd6163-a82a-4079-8e3a-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3a-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0042.mp4","createdAt":"2020-01-02T05:16:03.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"0e5f70d7-a378-492c-8b1f-9b80fd152d34","memberId":"5afd6163-a82a-4079-8e3a-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3a-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0045.mp4","createdAt":"2020-01-02T05:13:43.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"c7b1de39-a64e-4c41-91cf-f6a2d96d1301","memberId":"5afd6163-a82a-4079-8e3a-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3a-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0044.mp4","createdAt":"2020-01-02T05:07:27.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null}],"pageInfo":{"totalRecords":115,"totalDisplayRecords":10}}}
+        // Example Response: {"success":true,"data":{"list":[{"footageId":"62754493-ccc1-4672-bcf7-afdd1481ee09","memberId":"5afd6163-a82a-4079-8e3b-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3b-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0025.mp4","createdAt":"2020-01-02T05:49:36.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"9c0c0baa-c715-4e2e-90b2-e92b30581b8c","memberId":"5afd6163-a82a-4079-8e3b-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3b-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0050.mp4","createdAt":"2020-01-02T05:39:24.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"ac7a8997-7977-4861-8cdd-553b5d7fc35b","memberId":"5afd6163-a82a-4079-8e3b-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3b-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0049.mp4","createdAt":"2020-01-02T05:37:20.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"98614246-2c40-4b9f-855b-a5a220f66a18","memberId":"5afd6163-a82a-4079-8e3b-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3b-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0027.mp4","createdAt":"2020-01-02T05:31:00.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"72a038ab-c6d1-441a-9a43-8f29a994eb26","memberId":"5afd6163-a82a-4079-8e3b-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3b-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0048.mp4","createdAt":"2020-01-02T05:27:22.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"20d41152-fc72-4826-9999-cd68e2646927","memberId":"5afd6163-a82a-4079-8e3b-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3b-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0046.mp4","createdAt":"2020-01-02T05:25:09.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"3578ecb0-ca2e-4460-93df-d7fe8abac275","memberId":"5afd6163-a82a-4079-8e3b-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3b-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0047.mp4","createdAt":"2020-01-02T05:21:57.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"2f3b4369-6ba0-478a-8b9b-1147d555c8cf","memberId":"5afd6163-a82a-4079-8e3b-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3b-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0042.mp4","createdAt":"2020-01-02T05:16:03.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"0e5f70d7-a378-492c-8b1f-9b80fd152d34","memberId":"5afd6163-a82a-4079-8e3b-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3b-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0045.mp4","createdAt":"2020-01-02T05:13:43.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null},{"footageId":"c7b1de39-a64e-4c41-91cf-f6a2d96d1301","memberId":"5afd6163-a82a-4079-8e3b-592c349ae72d","uploadedBy":"5afd6163-a82a-4079-8e3b-592c349ae72d","projectId":null,"originalFileName":"2019-03-15th Cebu Trip Day 1 - Island, Sardines, Turtle, Kawasan falls canyoneering (4K 50fps GoPro) - _V1-0044.mp4","createdAt":"2020-01-02T05:07:27.000Z","ownership":60,"isOwner":true,"approvalStatus":"approved","batchName":"","canSubmit":false,"description":null,"keywords":"","submissionDate":null,"ownerFullName":"Michael Kubler","transitionStatus":"Uploaded","reviewStatus":null,"canDelete":true,"sharers":[],"editorial":false,"editorialCity":null,"editorialState":null,"editorialCountry":null,"editorialText":null,"category":null,"batchId":null,"canPreview":true,"canAssignCurator":false,"curators":[{"id":"1ad6e882-4146-4af5-8d33-4586c6deb60b","fullName":"Jovelyn Cabahug Domingo","collabShare":40,"collabType":"curator","locked":false}],"documents":{"modelDocuments":[],"propertyDocuments":[]},"isAttachedRelease":false,"reviewRequired":false,"curationStatus":"incomplete","rejectedReason":[],"noteToOwner":null}],"pageInfo":{"totalRecords":115,"totalDisplayRecords":10}}}
     }
 
     async getAllFootage() {
@@ -120,10 +118,10 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
                 });
 
                 // When all completed
-                Promise.all([contributePromise, curationPromise, contentPromise]).then(function (data) {
+                Promise.all([contributePromise, curationPromise, contentPromise]).then((data) => {
 
                     console.debug('The footages data is: ', blackBoxPlusFootage);
-                    window.blackBoxPlusFootage = blackBoxPlusFootage;
+                    this.addMessage(`<p>All Footage data loaded</p>`);
                     resolve(blackBoxPlusFootage);
 
                 });
@@ -133,55 +131,168 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
     }
 
 
-// Based on https://medium.com/@danny.pule/export-json-to-csv-file-using-javascript-a0b7bc5b00d2
-    convertToCSV(objArray) {
-        var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-        var str = '';
+    async getAllFinancials() {
 
-        for (var i = 0; i < array.length; i++) {
-            var line = '';
-            for (var index in array[i]) {
-                if (line != '') {
-                    line += ','
-                }
-                line += array[i][index];
-            }
+        let blackBoxPlusFinancials = {};
+        this.setStatusLoading(`financial data`);
+        return new Promise((resolve, reject) => {
 
-            str += line + '\r\n';
-        }
+            let financialSummaryInfoPromise = this.getFinancialSummaryInfo().then(function (data) {
+                blackBoxPlusFinancials.financialSummaryInfo = data;
+                console.debug(`The financialSummaryInfo contains ${data.length} entries`);
+            });
 
-        return str;
+            let financialEarningsSummaryPromise = this.getFinancialEarningsSummary().then(function (data) {
+                blackBoxPlusFinancials.financialEarningsSummary = data;
+                console.debug(`The getFinancialEarningsSummary contains ${data.length} entries`);
+            });
+            let getUnpaidEarningsPromise = this.getUnpaidEarnings().then(function (data) {
+                blackBoxPlusFinancials.unpaidEarnings = data;
+            });
+            // let contentPromise = this.gatherFootageData('content').then(function (data) {
+            //     blackBoxPlusFinancials.content = data
+            // });
+
+            // When all completed
+            Promise.all([financialSummaryInfoPromise, financialEarningsSummaryPromise, getUnpaidEarningsPromise]).then((data) => {
+
+                console.debug('The blackBoxPlusFinancials data is: ', blackBoxPlusFinancials);
+                this.addMessage(`<p>All Financial data loaded</p>`);
+                resolve(blackBoxPlusFinancials);
+            });
+        });
+
     }
 
-    exportCSVFile(headers, items, fileTitle) {
-        if (headers) {
-            items.unshift(headers);
-        }
+    /**
+     *
+     * @returns {Promise<*|undefined>}
+     */
+    async getFinancialSummaryInfo() {
+        // URL example https://portal.blackbox.global/api/member/5afd6163-a82a-4079-8e3b-592c349ae72d/summaryInfo
+        // Example response = {"RevenueToDate":204.25,"RevenueThisMonth":0,"ReferralToDate":1.08,"ReferralThisMonth":0,"MemberStatus":"Regular","MembershipDue":"N/A","OutstandingCollaborativeInvitations":0,"AvailableOpportunities":1,"ReferralMembers":1}
+        return this.callAPI(`/summaryInfo`);
+    }
 
-        // Convert Object to JSON
-        var jsonObject = JSON.stringify(items);
+    async getFinancialEarningsSummary(toDate = null, fromDate = '2017-01-01%2000:00:00') {
+        toDate = toDate || this.getFormattedDate("{Y}-{M}-{D}") + '%2023:59:59'; // Until the end of today
+        // Example URL https://portal.blackbox.global/api/member/5afd6163-a82a-4079-8e3b-592c349ae72d/earningSummary?fromDate=2019-11-12%2000:00:00&toDate=2020-02-10%2023:59:59
+        return this.callAPI(`/earningSummary?fromDate=${fromDate}&toDate=${toDate}`);
+    }
 
-        var csv = this.convertToCSV(jsonObject);
 
-        var exportedFilenmae = fileTitle + '.csv' || 'export.csv';
+    /**
+     * Unpaid Earnings Summary
+     *
+     * 'My Revenue' page
+     * Described as 'A list of footage have been sold recently but have not been paid'
+     *
+     * You shouldn't need to use the provided values but if you do it
+     * expects toDate and fromDate to be fully formed strings
+     * @param toDate
+     * @param fromDate
+     * @returns {Promise<*|undefined>}
+     */
+    async getUnpaidEarnings(toDate = null, fromDate = null) {
+        let dateMonthAgo = fromDate || new Date();
+        // Set it to one month ago
+        dateMonthAgo.setMonth(dateMonthAgo.getMonth() - 1); // This works for January as well and goes back to the previous year
+        dateMonthAgo.setDate(0); // This will actually from the last day of the month before, just to be sure
 
-        var blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
-        if (navigator.msSaveBlob) { // IE 10+
-            navigator.msSaveBlob(blob, exportedFilenmae);
+        toDate = toDate || this.getFormattedDate("{Y}-{M}-{D}") + '%2023:59:59'; // Until the end of today
+        fromDate = fromDate || this.getFormattedDate("{Y}-{M}-{D}", dateMonthAgo) + '%2000:00:00'; // Until the end of today
+        // e.g https://portal.blackbox.global/api/member/5afd6163-a82a-4079-8e3b-592c349ae72d/revenue?fromDate=2019-12-10%2000:00:00&toDate=2020-02-10%2023:59:59&index=1&limit=10
+        return this.callAPI(`/revenue?fromDate=${fromDate}&toDate=${toDate}&index=1&limit=500`);
+    }
+
+
+    // Payment History (months)
+    // https://portal.blackbox.global/api/member/5afd6163-a82a-4079-8e3b-592c349ae72d/paymentHistory?index=1&limit=10
+    // Example response: {"list":[{"paymentDate":"2020-01-19T20:48:00.000Z","grossRev":65.13,"netPayment":64.14,"paymentMethod":"PayPal","transferFee":1.31,"commission":0.33},{"paymentDate":"2019-12-20T15:10:14.000Z","grossRev":93.52,"netPayment":92.12,"paymentMethod":"PayPal","transferFee":1.88,"commission":0.48},{"paymentDate":"2019-11-20T15:45:02.000Z","grossRev":17.14,"netPayment":16.91,"paymentMethod":"PayPal","transferFee":0.34,"commission":0.11},{"paymentDate":"2019-09-20T03:38:44.000Z","grossRev":8.92,"netPayment":8.81,"paymentMethod":"PayPal","transferFee":0.18,"commission":0.07}],"pageInfo":{"totalRecords":4,"totalDisplayRecords":4}}
+
+
+    // Total Earnings Report (Individual sales)
+    // https://portal.blackbox.global/api/member/5afd6163-a82a-4079-8e3a-592c349ae72d/earningsReport?fromDate=2019-12-10%2000:00:00&toDate=2020-02-10%2023:59:59&index=1&limit=10
+    // Example {"items":[{"footageId":"54e4043f-39eb-4ced-a663-e10745ac2260","footageName":"2019-05-16th Oasis One Flight #2 - 14 Sunset descending-.mp4","earning":18.55,"totalDownloads":1,"dateSold":"2020-01-23T00:00:00.000Z"},{"footageId":"74eab76b-a4b5-4e69-a7e8-afe77b182b1e","footageName":"2019-04-21st Manila Bay and StarCity Theme Park - _V1-0022.mp4","earning":65.46,"totalDownloads":1,"dateSold":"2019-12-18T00:00:00.000Z"}],"totalEarning":84.01,"pageInfo":{"totalRecords":2,"totalDisplayRecords":2}}
+
+
+    get urlBase() {
+        if (this.urlBaseCache) {
+            return this.urlBaseCache;
         } else {
-            var link = document.createElement("a");
-            if (link.download !== undefined) { // feature detection
-                // Browsers that support HTML5 download attribute
-                var url = URL.createObjectURL(blob);
-                link.setAttribute("href", url);
-                link.setAttribute("download", exportedFilenmae);
-                link.style.visibility = 'hidden';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }
+
+            let memberId = this.getMemberId();
+            return this.urlBaseCache = `https://portal.blackbox.global/api/member/${memberId}`;
         }
     }
+
+    async callAPI(uri, method = 'GET') {
+
+        this.setStatusLoading(`Making a call to ${uri}`)
+        let headers = this.getAPICallHeaders(method);
+        let url = `${this.urlBase}${uri}`;
+        let response = await fetch(url, headers);
+        if (response.ok) {
+            return await response.json();
+        } else {
+            this.setStatusError(`trying to make an API call to ${uri}`);
+            this.addFlashMessage(`Error trying to make an API call to ${uri}`);
+            let errorMessage = `No OK response from the API. Got the HTTP status ${response.status} when doing a ${method} request to ${url}`;
+            console.log(errorMessage, {url, uri, response, headers});
+            throw new Error(errorMessage);
+        }
+    }
+
+
+    // // Based on https://medium.com/@danny.pule/export-json-to-csv-file-using-javascript-a0b7bc5b00d2
+    // convertToCSV(objArray) {
+    //     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    //     var str = '';
+    //
+    //     for (var i = 0; i < array.length; i++) {
+    //         var line = '';
+    //         for (var index in array[i]) {
+    //             if (line != '') {
+    //                 line += ','
+    //             }
+    //             line += array[i][index];
+    //         }
+    //
+    //         str += line + '\r\n';
+    //     }
+    //
+    //     return str;
+    // }
+    //
+    // exportCSVFile(headers, items, fileTitle) {
+    //     if (headers) {
+    //         items.unshift(headers);
+    //     }
+    //
+    //     // Convert Object to JSON
+    //     var jsonObject = JSON.stringify(items);
+    //
+    //     var csv = this.convertToCSV(jsonObject);
+    //
+    //     var exportedFilenmae = fileTitle + '.csv' || 'export.csv';
+    //
+    //     var blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+    //     if (navigator.msSaveBlob) { // IE 10+
+    //         navigator.msSaveBlob(blob, exportedFilenmae);
+    //     } else {
+    //         var link = document.createElement("a");
+    //         if (link.download !== undefined) { // feature detection
+    //             // Browsers that support HTML5 download attribute
+    //             var url = URL.createObjectURL(blob);
+    //             link.setAttribute("href", url);
+    //             link.setAttribute("download", exportedFilenmae);
+    //             link.style.visibility = 'hidden';
+    //             document.body.appendChild(link);
+    //             link.click();
+    //             document.body.removeChild(link);
+    //         }
+    //     }
+    // }
 
 
     /**
@@ -215,15 +326,26 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
         return this.makeLinkElementDownload(element, JSON.stringify(jsonContent, null, 2), fileName + '.json', 'application/json');
     }
 
-    // If you want an element
-    returnDownloadLinkElement(content, fileName, contentType) {
+    /**
+     *
+     * If you want a new A link element
+     * But mostly so you can have it automatically clicked and start the download
+     * @param content
+     * @param fileName
+     * @param contentType
+     * @param downloadAutomatically
+     * @returns {HTMLAnchorElement}
+     */
+    createDownloadLinkElement(content, fileName, contentType, downloadAutomatically = true) {
         let a = document.createElement("a");
         let file = new Blob([content], {type: contentType});
         a.href = URL.createObjectURL(file);
         a.download = fileName;
         a.innerText = fileName;
+        if (true === downloadAutomatically) {
+            a.click(); // Automatically try to download the file cc
+        }
         return a;
-        // a.click(); // Automatically try to download the file
     }
 
 //
