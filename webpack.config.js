@@ -47,9 +47,7 @@ const jsConfig = {
 };
 
 const mdConfig = {
-    entry: {
-        readme: './README.md'
-    },
+    entry: './README.md',
     output: {
         path: path.resolve(__dirname, ''),
         filename: 'index.html',
@@ -69,10 +67,15 @@ const mdConfig = {
                         loader: "markdown-loader",
                         options: {
                             gfm: true,
-                            'smart-lists': true
+                            // 'smart-lists': true
                         }
                     },
-                    // 'extract-loader',
+                    {
+                        loader: 'file-loader'
+                    },
+                    {
+                        loader: 'extract-loader'
+                    },
                 ],
                 exclude: /node_modules/
             }
