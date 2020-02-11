@@ -61,6 +61,12 @@ const mdConfig = {
                 use: [
                     // 'file-loader?name=[name].[ext]',
                     {
+                        loader: 'extract-loader'
+                    },
+                    {
+                        loader: 'file-loader'
+                    },
+                    {
                         loader: "html-loader"
                     },
                     {
@@ -70,12 +76,7 @@ const mdConfig = {
                             // 'smart-lists': true
                         }
                     },
-                    {
-                        loader: 'file-loader'
-                    },
-                    {
-                        loader: 'extract-loader'
-                    },
+
                 ],
                 exclude: /node_modules/
             }
