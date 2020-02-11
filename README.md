@@ -21,8 +21,8 @@ Drag the links below to your browser, go to [portal.blackbox.global](https://por
 
 Still coming:
 
-2. Initial Keywording
-3. Thesaurus
+2. Initial Keywording - An image analysis system for adding some initial keywords (I'm looking forward to this one)
+3. Thesaurus - An interactive, on the edit page thesaurus for finding words faster (if people are interested)
 
 Still to come: gif/images which explain how to use these.
 
@@ -75,16 +75,9 @@ This repo is available publicly in order for other developers to be able to revi
 
 
 ### Use at your own risk
-Michael is a fellow stock footage film maker and also web developer.
+Michael is a fellow stock footage film maker and also a skilled web developer with over 10 years experience.
+
 Michael will do what he can to ensure the code works well and doesn't cause any issues. But accepts no liabilities for any issues caused by using this. The code has been developed independently from BlackBox itself.
-
-Please note, certain services, such as the Google Machine learning calls come with associated costs. Others, like the Tensorflow model require 20MB downloads. The analytics system uploads your images and submitted keywords in order to create better trained models and improve the system overall.
-
-### Imagery Access
-
-By using the `Initial Keywording` system you agree to provide [**G**rey **P**hoenix **P**roductions](https://www.greyphoenix.biz) (the creator of the BlackBox Plus system) authorised uses to the images used and submitted keyword information.
-This information can then be used to create better quality machine learning training models and in turn better keywords.
-
 
 ## Full Legals:
 
