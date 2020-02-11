@@ -21,8 +21,9 @@ Drag the links below to your browser, go to [portal.blackbox.global](https://por
 
 Still coming:
 
-2. Initial Keywording
-3. Thesaurus
+2. Initial Keywording - An image analysis system for adding some initial keywords (I'm looking forward to this one)
+3. Thesaurus - An interactive, on the edit page thesaurus for finding words faster (if people are interested)
+
 
 Still to come: gif/images which explain how to use these.
 
