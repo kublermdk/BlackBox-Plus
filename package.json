@@ -8,7 +8,7 @@
     "clean": "rm dist/bundle.js",
     "build-dev": "webpack -d --mode development --watch",
     "build-prod": "webpack -p --mode production",
-    "build-markdown": "marked README.md -o index.html"
+    "markdown": "marked -i README.md -o index.html -gfm --smart-lists"
   },
   "repository": {
     "type": "git",
