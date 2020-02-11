@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const MarkdownPlugin = require('markdown-html-webpack-plugin');
 
-const config = {
+const jsConfig = {
     entry: {
         export: './src/export.js',
         initialKeywordingTensorflow: './src/initialKeywording-Tensorflow.js',
@@ -34,23 +34,6 @@ const config = {
                     'less-loader'
                 ]
             },
-            // {
-            //     // Convert the README.md file to HTML
-            //     // Uses `npm install markdown-loader html-loader`
-            //     test: /\.md$/,
-            //     use: [
-            //         {
-            //             loader: "html-loader"
-            //         },
-            //         {
-            //             loader: "markdown-loader",
-            //             options: {
-            //                 /* your options here */
-            //             }
-            //         }
-            //     ],
-            //     exclude: /node_modules/
-            // }
         ]
     },
     // plugins: [
@@ -62,4 +45,38 @@ const config = {
     //     }),
     // ]
 };
-module.exports = config;
+
+const mdConfig = {
+    entry: {
+        readme: './README.md'
+    },
+    output: {
+        path: path.resolve(__dirname, ''),
+        filename: 'index.html',
+    },
+    module: {
+        rules: [
+            {
+                // Convert the README.md file to HTML
+                // Uses `npm install markdown-loader html-loader`
+                test: /\.md$/,
+                use: [
+                    // 'file-loader?name=[name].[ext]',
+                    {
+                        loader: "html-loader"
+                    },
+                    {
+                        loader: "markdown-loader",
+                        options: {
+                            gfm: true,
+                            'smart-lists': true
+                        }
+                    },
+                    // 'extract-loader',
+                ],
+                exclude: /node_modules/
+            }
+        ]
+    }
+};
+module.exports = [jsConfig, mdConfig];

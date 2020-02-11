@@ -12,9 +12,10 @@ Every time you refresh the page, you'll need to click the bookmarklet again to l
 ## Bookmarklets
 
 Directions:
+
 Drag the links below to your browser, go to [portal.blackbox.global](https://portal.blackbox.global/) and when the page is loaded click the link and the extra functionality will be added.
 
-Bookmarklet Links (drag these to your browser link bar) :
+## Bookmarklet Links (drag these to your browser link bar) :
 
 1. <a class="bookmarklet" href="javascript:(function () {console.debug('Loading BlackBox Plus Exporter');let script = document.createElement('script');script.src = 'https://blackboxplus.greyphoenix.biz/dist/export.js';document.head.appendChild(script);})();">BB+ Data Export</a> - Gives you CSV and JSON exports of your data.
 
@@ -39,7 +40,7 @@ The [BlackBox Portal](https://portal.blackbox.global/) is the system used for de
 
 ### What is a Bookmarklet?
 
-A bookmarklet looks like a link, but actually executes javascript. Code in your browser.
+A bookmarklet looks like a link, but actually executes javascript code in your browser. Note that you can't see the Bookmarklets in the Github README file. You have to view them at [blackboxplus.greyphoenix.biz](https://blackboxplus.greyphoenix.biz/)
 
 ## Data Export
 
@@ -101,7 +102,8 @@ Alternatively BlackBox may choose to disable this functionality, in which case, 
 
 The [code provided here](https://github.com/kublermdk/BlackBox-Plus) is available open source, especially for openness and transparency.
 
-
+<link media="all" rel="stylesheet" href="https://.css" />
+  
 <style>
 
 /* Based on the html5-boilerplate https://github.com/h5bp/html5-boilerplate/blob/master/dist/css/main.css */
@@ -344,5 +346,5 @@ body {
 
 .bookmarklet {
 font-weight: bold;
-
+}
 </style>
