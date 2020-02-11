@@ -149,14 +149,17 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
             let getUnpaidEarningsPromise = this.getUnpaidEarnings().then(function (data) {
                 blackBoxPlusFinancials.unpaidEarnings = data;
             });
-            // let contentPromise = this.gatherFootageData('content').then(function (data) {
-            //     blackBoxPlusFinancials.content = data
-            // });
+            let getFinancialPaymentHistoryPromise = this.getFinancialPaymentHistory().then(function (data) {
+                blackBoxPlusFinancials.financialPaymentHistory = data;
+            });
+            let getFinancialTotalEarningsReportPromise = this.getFinancialTotalEarningsReport().then(function (data) {
+                blackBoxPlusFinancials.financialTotalEarningsReport = data;
+            });
 
             // When all completed
-            Promise.all([financialSummaryInfoPromise, financialEarningsSummaryPromise, getUnpaidEarningsPromise]).then((data) => {
+            Promise.all([financialSummaryInfoPromise, financialEarningsSummaryPromise, getUnpaidEarningsPromise, getFinancialPaymentHistoryPromise, getFinancialTotalEarningsReportPromise]).then((data) => {
 
-                console.debug('The blackBoxPlusFinancials data is: ', blackBoxPlusFinancials);
+                console.debug('The blackBoxPlusFinancials data char length is ', JSON.stringify(blackBoxPlusFinancials).length);
                 this.addMessage(`<p>All Financial data loaded</p>`);
                 resolve(blackBoxPlusFinancials);
             });
@@ -203,17 +206,42 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
         fromDate = fromDate || this.getFormattedDate("{Y}-{M}-{D}", dateMonthAgo) + '%2000:00:00'; // Until the end of today
         // e.g https://portal.blackbox.global/api/member/5afd6163-a82a-4079-8e3b-592c349ae72d/revenue?fromDate=2019-12-10%2000:00:00&toDate=2020-02-10%2023:59:59&index=1&limit=10
         return this.callAPI(`/revenue?fromDate=${fromDate}&toDate=${toDate}&index=1&limit=500`);
+        // Example response
     }
 
 
-    // Payment History (months)
-    // https://portal.blackbox.global/api/member/5afd6163-a82a-4079-8e3b-592c349ae72d/paymentHistory?index=1&limit=10
-    // Example response: {"list":[{"paymentDate":"2020-01-19T20:48:00.000Z","grossRev":65.13,"netPayment":64.14,"paymentMethod":"PayPal","transferFee":1.31,"commission":0.33},{"paymentDate":"2019-12-20T15:10:14.000Z","grossRev":93.52,"netPayment":92.12,"paymentMethod":"PayPal","transferFee":1.88,"commission":0.48},{"paymentDate":"2019-11-20T15:45:02.000Z","grossRev":17.14,"netPayment":16.91,"paymentMethod":"PayPal","transferFee":0.34,"commission":0.11},{"paymentDate":"2019-09-20T03:38:44.000Z","grossRev":8.92,"netPayment":8.81,"paymentMethod":"PayPal","transferFee":0.18,"commission":0.07}],"pageInfo":{"totalRecords":4,"totalDisplayRecords":4}}
+    /**
+     * Payment History (months)
+     *
+     * Note that this deals with the pagination
+     * Also note that the "totalEarning" field is lost,
+     * but people using this as CSV can re-created that themselves very easily and
+     * it's on a per request basis so will be wrong if there's multiple API calls
+     *
+     * @returns {Promise<*|undefined>}
+     */
+    async getFinancialPaymentHistory() {
+        // https://portal.blackbox.global/api/member/5afd6163-a82a-4079-8e3b-592c349ae72d/paymentHistory?index=1&limit=10
+        // Example api response: {"list":[{"paymentDate":"2020-01-19T20:48:00.000Z","grossRev":65.13,"netPayment":64.14,"paymentMethod":"PayPal","transferFee":1.31,"commission":0.33},{"paymentDate":"2019-12-20T15:10:14.000Z","grossRev":93.52,"netPayment":92.12,"paymentMethod":"PayPal","transferFee":1.88,"commission":0.48},{"paymentDate":"2019-11-20T15:45:02.000Z","grossRev":17.14,"netPayment":16.91,"paymentMethod":"PayPal","transferFee":0.34,"commission":0.11},{"paymentDate":"2019-09-20T03:38:44.000Z","grossRev":8.92,"netPayment":8.81,"paymentMethod":"PayPal","transferFee":0.18,"commission":0.07}],"pageInfo":{"totalRecords":4,"totalDisplayRecords":4}}
+        return this.callPaginatedAPI(`/paymentHistory?`);
+    }
 
 
-    // Total Earnings Report (Individual sales)
-    // https://portal.blackbox.global/api/member/5afd6163-a82a-4079-8e3a-592c349ae72d/earningsReport?fromDate=2019-12-10%2000:00:00&toDate=2020-02-10%2023:59:59&index=1&limit=10
-    // Example {"items":[{"footageId":"54e4043f-39eb-4ced-a663-e10745ac2260","footageName":"2019-05-16th Oasis One Flight #2 - 14 Sunset descending-.mp4","earning":18.55,"totalDownloads":1,"dateSold":"2020-01-23T00:00:00.000Z"},{"footageId":"74eab76b-a4b5-4e69-a7e8-afe77b182b1e","footageName":"2019-04-21st Manila Bay and StarCity Theme Park - _V1-0022.mp4","earning":65.46,"totalDownloads":1,"dateSold":"2019-12-18T00:00:00.000Z"}],"totalEarning":84.01,"pageInfo":{"totalRecords":2,"totalDisplayRecords":2}}
+    /**
+     * Total Earnings Report (Individual sales)
+     *
+     * Note that this deals with the pagination and date ranges
+     *
+     * @returns {Promise<*|undefined>}
+     */
+    async getFinancialTotalEarningsReport(toDate = null, fromDate = '2017-01-01%2000:00:00') {
+        // Total Earnings Report (Individual sales)
+        // https://portal.blackbox.global/api/member/5afd6163-a82a-4079-8e3b-592c349ae72d/earningsReport?fromDate=2019-12-10%2000:00:00&toDate=2020-02-10%2023:59:59&index=1&limit=10
+        // Example {"items":[{"footageId":"54e4043f-39eb-4ced-a663-e10745ac2260","footageName":"2019-05-16th Oasis One Flight #2 - 14 Sunset descending-.mp4","earning":18.55,"totalDownloads":1,"dateSold":"2020-01-23T00:00:00.000Z"},{"footageId":"74eab76b-a4b5-4e69-a7e8-afe77b182b1e","footageName":"2019-04-21st Manila Bay and StarCity Theme Park - _V1-0022.mp4","earning":65.46,"totalDownloads":1,"dateSold":"2019-12-18T00:00:00.000Z"}],"totalEarning":84.01,"pageInfo":{"totalRecords":2,"totalDisplayRecords":2}}
+
+        toDate = toDate || this.getFormattedDate("{Y}-{M}-{D}") + '%2023:59:59'; // Until the end of today
+        return this.callPaginatedAPI(`/earningsReport?fromDate=${fromDate}&toDate=${toDate}&`);
+    }
 
 
     get urlBase() {
@@ -243,57 +271,72 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
         }
     }
 
+    /**
+     * Call Paginated API
+     *
+     * This deals with the pagination, if needed.
+     *
+     * NB: The ? or & last char of the uri should be provided by the calling method.
+     * @param uri
+     * @param method
+     * @param limit
+     * @returns {Promise<[]>}
+     */
+    async callPaginatedAPI(uri, method = 'GET', limit = 200) {
+        let index = 1;
+        let page = 1;
+        this.setStatusLoading(`items from ${uri}. Page ${page}`);
+        let paginatedUri = `${uri}index=${index}&limit=${limit}`; // Add pagination query
+        let response = await this.callAPI(paginatedUri, method);
+        console.debug(`The first paginated call to ${uri}`, {uri, paginatedUri, method, response});
+        let items = [];
+        let pagesNeeded = 0;
+        let totalRecords = 0;
+        // Add the items (or list entries, because their API isn't consistent)
+        if (response.items) {
+            items = [].concat(items, response.items);
+        }
+        if (response.list) {
+            items = [].concat(items, response.list);
+        }
 
-    // // Based on https://medium.com/@danny.pule/export-json-to-csv-file-using-javascript-a0b7bc5b00d2
-    // convertToCSV(objArray) {
-    //     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-    //     var str = '';
-    //
-    //     for (var i = 0; i < array.length; i++) {
-    //         var line = '';
-    //         for (var index in array[i]) {
-    //             if (line != '') {
-    //                 line += ','
-    //             }
-    //             line += array[i][index];
-    //         }
-    //
-    //         str += line + '\r\n';
-    //     }
-    //
-    //     return str;
-    // }
-    //
-    // exportCSVFile(headers, items, fileTitle) {
-    //     if (headers) {
-    //         items.unshift(headers);
-    //     }
-    //
-    //     // Convert Object to JSON
-    //     var jsonObject = JSON.stringify(items);
-    //
-    //     var csv = this.convertToCSV(jsonObject);
-    //
-    //     var exportedFilenmae = fileTitle + '.csv' || 'export.csv';
-    //
-    //     var blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
-    //     if (navigator.msSaveBlob) { // IE 10+
-    //         navigator.msSaveBlob(blob, exportedFilenmae);
-    //     } else {
-    //         var link = document.createElement("a");
-    //         if (link.download !== undefined) { // feature detection
-    //             // Browsers that support HTML5 download attribute
-    //             var url = URL.createObjectURL(blob);
-    //             link.setAttribute("href", url);
-    //             link.setAttribute("download", exportedFilenmae);
-    //             link.style.visibility = 'hidden';
-    //             document.body.appendChild(link);
-    //             link.click();
-    //             document.body.removeChild(link);
-    //         }
-    //     }
-    // }
+        if (response.pageInfo && response.pageInfo.totalRecords) {
+            totalRecords = response.pageInfo.totalRecords;
+            pagesNeeded = Math.ceil(totalRecords / limit);
+        }
 
+        //  --------------------------------------------------
+        //   Make the Paginated Calls (if needed)
+        //  --------------------------------------------------
+        for (page = 2; page <= pagesNeeded; page++) {
+            let index = (page - 1) * limit + 1;
+            this.setStatusLoading(`items from ${uri}. Page ${page} of ${pagesNeeded}`);
+            paginatedUri = `${uri}?index=${index}&limit=${limit}`; // Add pagination query
+            console.debug(`About to make the ${page} paginated call to ${uri}`, {
+                uri,
+                paginatedUri,
+                pagesNeeded,
+                totalRecords
+            });
+            response = await this.callAPI(paginatedUri, method);
+            if (response.items) {
+                // Add the entries
+                items = [].concat(items, response.items);
+            }
+            if (response.list) {
+                // Add the entries
+                items = [].concat(items, response.list);
+            }
+        }
+        return items;
+
+
+        // -- Example pageInfo
+        // "pageInfo": {
+        //     "totalRecords": 2,
+        //     "totalDisplayRecords": 2
+        // }
+    }
 
     /**
      * Make Link Element Download
@@ -360,51 +403,4 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
         return a;
     }
 
-//
-//     var headers = {
-//         model: 'Phone Model'.replace(/,/g, ''), // remove commas to avoid errors
-//         chargers: "Chargers",
-//         cases: "Cases",
-//         earphones: "Earphones"
-//     };
-//
-//     itemsNotFormatted = [
-//         {
-//             model: 'Samsung S7',
-//             chargers: '55',
-//             cases: '56',
-//             earphones: '57',
-//             scratched: '2'
-//         },
-//         {
-//             model: 'Pixel XL',
-//             chargers: '77',
-//             cases: '78',
-//             earphones: '79',
-//             scratched: '4'
-//         },
-//         {
-//             model: 'iPhone 7',
-//             chargers: '88',
-//             cases: '89',
-//             earphones: '90',
-//             scratched: '6'
-//         }
-//     ];
-//
-//     var itemsFormatted = [];
-//
-// // format the data
-//     itemsNotFormatted.forEach((item) => {
-//     itemsFormatted.push({
-//                             model: item.model.replace(/,/g, ''), // remove commas to avoid errors,
-//     chargers: item.chargers,
-//     cases: item.cases,
-//     earphones: item.earphones
-// });
-// });
-//
-// var fileTitle = 'orders'; // or 'my-unique-title'
-//
-// exportCSVFile(headers, itemsFormatted, fileTitle); // call the exportCSVFile() function to process the JSON and trigger the download
 }
