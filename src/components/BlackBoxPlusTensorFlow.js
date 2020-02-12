@@ -1,10 +1,12 @@
 import BlackBoxPlusInfo from "./BlackBoxPlusInfo";
+import * as mobilenet from '@tensorflow-models/mobilenet';
 
-export default class extends BlackBoxPlusInfo {
+export default class BlackBoxPlusTensorFlow extends BlackBoxPlusInfo {
 
     header = 'BB+ Init Keywording';
     blackBoxPlusInfo;
-
+    mobilenetModel;
+    topk = 8; // Number of the top probabilities to return
 
     /*
     Process:
@@ -17,15 +19,23 @@ export default class extends BlackBoxPlusInfo {
      */
     constructor() {
         super('BB+ Init Keywording');
-        this.loadTensorFlow();
-        this.setInterface(`<p><button class="bbox_plus_button" onClick="blackBoxPlusTensorFlow.getCurrentVideoFrame()">getCurrentVideoFrame</button></p>`)
     }
 
-    loadTensorFlow() {
+    async loadTensorFlow() {
+        this.setStatusLoading(`TensorFlow`);
+        this.mobilenetModel = mobilenet.load(); // @todo Idleize this
+        // As per https://github.com/tensorflow/tfjs-models/tree/master/mobilenet
         // <script src="https://unpkg.com/@tensorflow/tfjs"></script>
         // <script src="https://unpkg.com/@tensorflow-models/mobilenet"></script>
-        this.blackBoxPlusInfo.dynamicallyLoadScript("https://unpkg.com/@tensorflow/tfjs");
-        this.blackBoxPlusInfo.dynamicallyLoadScript("https://unpkg.com/@tensorflow-models/mobilenet");
+        // this.dynamicallyLoadScript('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs');
+        // this.dynamicallyLoadScript('https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet');
+        // await new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //         this.setStatusLoading(`MobileNet`);
+        //         resolve(true);
+        //     }, 300);
+        // });
+        // return true;
     }
 
 
@@ -61,13 +71,13 @@ export default class extends BlackBoxPlusInfo {
         }
         let context = this.getCanvas();
         let dataURL = this.getCanvas(false).toDataURL();
-        context.drawImage(vid, 0, 0, vid.height, vid.width);
+        context.drawImage(vid, 0, 0, vid.videoHeight, vid.videoWidth);
         let img = document.createElement('img');
         img.setAttribute('src', dataURL);
         return {context, img};
     }
 
-    getVideoPlyr() {
+    getVideoPlayer() {
         let vid = document.getElementById('videoControl');
         if (!vid || !vid.plyr) {
             this.addFlashMessage('No active video available. Press play and load the video up first');
@@ -81,7 +91,7 @@ export default class extends BlackBoxPlusInfo {
      * @returns videoPlayer|false
      */
     getValidVideoPlayer() {
-        let videoPlayer = this.getVideoPlyr();
+        let videoPlayer = this.getVideoPlayer();
         return videoPlayer.isReady() === true ? videoPlayer : false;
     }
 
@@ -95,13 +105,54 @@ export default class extends BlackBoxPlusInfo {
     }
 
     seekVideoToEnd() {
-        let videoPlayer = this.getVideoPlyr();
-        videoPlayer.seek(videoPlayer.getDuration() - 0.1); // If we seek to the very end it seems to jump back to the start, so we get a few frames before that
+        let videoPlayer = this.getValidVideoPlayer();
+        let seekTime = false;
+        if (videoPlayer) {
+            seekTime = videoPlayer.getDuration() - 0.1;
+            videoPlayer.seek(seekTime); // If we seek to the very end it seems to jump back to the start, so we get a few frames before that
+        }
+        return seekTime;
     }
 
-    processCurrentVideoFrame() {
-        this.getCurrentVideoFrame();
+    seekVideoToMiddle() {
+        let videoPlayer = this.getValidVideoPlayer();
+        let seekTime = false;
+        if (videoPlayer) {
+            seekTime = videoPlayer.getDuration() / 2;
+            videoPlayer.seek(seekTime); // If we seek to the very end it seems to jump back to the start, so we get a few frames before that
+        }
+        return seekTime;
     }
+
+    seekVideoToStart() {
+        let videoPlayer = this.getValidVideoPlayer();
+        let seekTime = false;
+        if (videoPlayer) {
+            seekTime = 0;
+            videoPlayer.seek(seekTime); // If we seek to the very end it seems to jump back to the start, so we get a few frames before that
+        }
+        return seekTime;
+    }
+
+    async processCurrentVideoFrame() {
+        let videoFrame = this.getCurrentVideoFrame(); // as context, img
+        // const imgEl = document.getElementById('img');
+        const mobilenetResult = await this.mobilenetModel.classify(videoFrame.context, this.topk);
+        console.debug("The result of the MobileNet Classification is: ", mobilenetResult);
+        return mobilenetResult;
+
+        /* Example response:
+            [{className: "Egyptian cat", probability: 0.8380282521247864},
+            {className: "tabby, tabby cat", probability: 0.04644153267145157},
+            {className: "Siamese cat, Siamese", probability: 0.024488523602485657}]
+         */
+    }
+
+    displayKeywordsFromClassification(classificationResponse, videoFrame = null) {
+        let keywords = [];
+        this.addMessage(`<p>Keywords to be added here based off <code>${JSON.stringify(classificationResponse)}</code></p>`);
+    }
+
 
     // -- Get Video Frame
     getVideoFrame() {
