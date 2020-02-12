@@ -39,7 +39,7 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
         let typeMapping = {
             contribute: {
                 totalRecords: this.countInTabs.countContributeFootages,
-                apiType: 'contribute',
+                apiType: 'contribute/footage',
                 apiPost: '',
             },
             curation: {
@@ -49,8 +49,7 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
             },
             content: {
                 totalRecords: this.countInTabs.countContentFootages,
-                apiType: 'content',
-                // apiPost: '',
+                apiType: 'content/footage',
                 apiPost: '&contentFilter=O',
             }
         };
@@ -64,7 +63,7 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
 
             let index = (page - 1) * limit + 1;
             this.setStatusLoading(`the ${type} items. Page ${page} of ${pagesNeeded}`);
-            let url = `https://portal.blackbox.global/api/member/${memberId}/${apiType}/footage?index=${index}&limit=${limit}${typeMapping[type].apiPost}`;
+            let url = `https://portal.blackbox.global/api/member/${memberId}/${apiType}?index=${index}&limit=${limit}${typeMapping[type].apiPost}`;
             let request = await fetch(url, headers);
             if (request.ok) {
                 let requestContent = await request.json();
@@ -282,7 +281,7 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
      * @param limit
      * @returns {Promise<[]>}
      */
-    async callPaginatedAPI(uri, method = 'GET', limit = 200) {
+    async callPaginatedAPI(uri, method = 'GET', limit = 2) {
         let index = 1;
         let page = 1;
         this.setStatusLoading(`items from ${uri}. Page ${page}`);
@@ -290,7 +289,7 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
         let response = await this.callAPI(paginatedUri, method);
         console.debug(`The first paginated call to ${uri}`, {uri, paginatedUri, method, response});
         let items = [];
-        let pagesNeeded = 0;
+        let pagesNeeded = 1;
         let totalRecords = 0;
         // Add the items (or list entries, because their API isn't consistent)
         if (response.items) {
@@ -337,6 +336,24 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
         //     "totalDisplayRecords": 2
         // }
     }
+
+
+    // -- Testing the pagination logic
+    // e.g unitTestablePagination(1802, 200); returns 10 pages worth
+    // unitTestablePagination(totalRecords, limit) {
+    //     let uri = 'test';
+    //     let index = 1;
+    //     let page = 1;
+    //     let pagesNeeded = Math.ceil(totalRecords / limit);
+    //     let paginationInfo = [];
+    //     paginationInfo.push({page, index, pagesNeeded, paginatedUri: `${uri}?index=${index}&limit=${limit}`});
+    //     for (page = 2; page <= pagesNeeded; page++) {
+    //         let index = (page - 1) * limit + 1;
+    //         // this.setStatusLoading(`items from ${uri}. Page ${page} of ${pagesNeeded}`);
+    //         paginationInfo.push({page, index, pagesNeeded, paginatedUri: `${uri}?index=${index}&limit=${limit}`}); // Add pagination query
+    //     }
+    //     return paginationInfo;
+    // }
 
     /**
      * Make Link Element Download
