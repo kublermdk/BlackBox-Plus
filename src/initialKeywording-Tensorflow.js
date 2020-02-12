@@ -9,6 +9,6 @@ blackBoxPlusTensorFlow.setStatusProcessing('Initial Setup');
 
 (async () => {
 // @todo: Do stuff
-    blackBoxPlusTensorFlow.loadTensorFlow();
+    blackBoxPlusTensorFlow.setHeader('BlackBox Plus Initial Keywording');
 
 });

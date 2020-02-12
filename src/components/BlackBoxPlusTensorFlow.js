@@ -1,14 +1,31 @@
-export default class BlackBoxPlusTensorFlow {
+import BlackBoxPlusInfo from "./BlackBoxPlusInfo";
 
-    header = 'Keywording - TS';
+export default class extends BlackBoxPlusInfo {
+
+    header = 'BB+ Init Keywording';
     blackBoxPlusInfo;
 
-    constructor(blackboxPlusInfo) {
-        if (!blackboxPlusInfo) {
-            blackboxPlusInfo = new BlackBoxPlusInfo(this.header);
-        }
-        this.blackBoxPlusInfo = blackboxPlusInfo;
-        this.blackBoxPlusInfo.setHeader(this.header);
+
+    /*
+    Process:
+    1. Get a valid video player, or wait until it's ready (optionally try and make it ready, although autoplay doesn't work very often in browsers)
+    2. Capture the first, middle and last frames of the video, plus make note of the duration. Alternatively if the image analysis doesn't take too long do it for every 5s, or give users the option of either.
+    3. Apply the TensorFlow keywording analysis to the images. Both mobilenet and Coco SSD
+    4. Merge the keywords together along with the probabilities.
+    5. Display the keywords as CSV in a set below (or above) the Keyword form field, with a [copy] button so they can easily copy/paste them in.
+    6. If analytics is enabled add the image files to the upload queue. Upon saving the form field also send the details through (want the description, keywords and footageId at a minimum, maybe original filename and memberId to help with filtering if needed).
+     */
+    constructor() {
+        super('BB+ Init Keywording');
+        this.loadTensorFlow();
+        this.setInterface(`<p><button class="bbox_plus_button" onClick="blackBoxPlusTensorFlow.getCurrentVideoFrame()">getCurrentVideoFrame</button></p>`)
+    }
+
+    loadTensorFlow() {
+        // <script src="https://unpkg.com/@tensorflow/tfjs"></script>
+        // <script src="https://unpkg.com/@tensorflow-models/mobilenet"></script>
+        this.blackBoxPlusInfo.dynamicallyLoadScript("https://unpkg.com/@tensorflow/tfjs");
+        this.blackBoxPlusInfo.dynamicallyLoadScript("https://unpkg.com/@tensorflow-models/mobilenet");
     }
 
 
@@ -25,13 +42,6 @@ export default class BlackBoxPlusTensorFlow {
         });
     };
 
-    loadTensorFlow() {
-        // <script src="https://unpkg.com/@tensorflow/tfjs"></script>
-        // <script src="https://unpkg.com/@tensorflow-models/mobilenet"></script>
-        this.blackBoxPlusInfo.dynamicallyLoadScript("https://unpkg.com/@tensorflow/tfjs");
-        this.blackBoxPlusInfo.dynamicallyLoadScript("https://unpkg.com/@tensorflow-models/mobilenet");
-    }
-
 
     getCanvas(context = true) {
         var bbox_plus_canvas = document.getElementById('bbox_plus_canvas');
@@ -42,15 +52,66 @@ export default class BlackBoxPlusTensorFlow {
         return context === true ? bbox_plus_canvas.getContext('2d') : bbox_plus_canvas;
     }
 
+
+    getCurrentVideoFrame() {
+        let vid = document.getElementById('videoControl');
+        if (!vid || !vid.plyr) {
+            this.addFlashMessage('No active video available. Press play and load the video up first');
+            return false;
+        }
+        let context = this.getCanvas();
+        let dataURL = this.getCanvas(false).toDataURL();
+        context.drawImage(vid, 0, 0, vid.height, vid.width);
+        let img = document.createElement('img');
+        img.setAttribute('src', dataURL);
+        return {context, img};
+    }
+
+    getVideoPlyr() {
+        let vid = document.getElementById('videoControl');
+        if (!vid || !vid.plyr) {
+            this.addFlashMessage('No active video available. Press play and load the video up first');
+            return false;
+        }
+        return vid.plyr;
+    }
+
+    /**
+     * Only returns the Video Player if it's ready
+     * @returns videoPlayer|false
+     */
+    getValidVideoPlayer() {
+        let videoPlayer = this.getVideoPlyr();
+        return videoPlayer.isReady() === true ? videoPlayer : false;
+    }
+
+    getVideoElement() {
+        let vid = document.getElementById('videoControl');
+        if (!vid || !vid.plyr) {
+            this.addFlashMessage('No active video available. Press play and load the video up first');
+            return false;
+        }
+        return vid;
+    }
+
+    seekVideoToEnd() {
+        let videoPlayer = this.getVideoPlyr();
+        videoPlayer.seek(videoPlayer.getDuration() - 0.1); // If we seek to the very end it seems to jump back to the start, so we get a few frames before that
+    }
+
+    processCurrentVideoFrame() {
+        this.getCurrentVideoFrame();
+    }
+
     // -- Get Video Frame
     getVideoFrame() {
         // @todo: Ensure the video has started and can be played
-        let vid = document.getElementById('videoControl');
-        vid.pause(); // Don't need it playing whilst we are getting the frame
-        let duration = vid.duration;
+        let videoElement = this.getVideoElement();
+        videoElement.pause(); // Don't need it playing whilst we are getting the frame
+        let duration = videoElement.duration;
         let context = getCanvas();
 
-        context.drawImage(vid, 0, 0, 220, 150);
+        context.drawImage(videoElement, 0, 0, 220, 150);
 
         // Create Image
         let dataURL = getCanvas(false).toDataURL();

@@ -17,11 +17,11 @@ Drag the links below to your browser, go to [portal.blackbox.global](https://por
 
 ## Bookmarklet Links (drag these to your browser link bar) :
 
-1. <a class="bookmarklet" href="javascript:(function () {console.debug('Loading BlackBox Plus Exporter');let script = document.createElement('script');script.src = 'https://blackboxplus.greyphoenix.biz/staging/export.js';document.head.appendChild(script);})();">BB+ Data Export - **STAGING**</a> - Gives you CSV and JSON exports of your data. This links to the cutting edge version (so called because it might break and well, don't cut yourself using it).
+1. <a class="bookmarklet" href="javascript:(function () {console.debug('Loading BlackBox Plus Exporter');let script = document.createElement('script');script.src = 'https://blackboxplus.greyphoenix.biz/staging/export.js';document.head.appendChild(script);})();">**BB+ Data Export - `STAGING`**</a> - Gives you CSV and JSON exports of your data. This links to the cutting edge version (so called because it might break and well, don't cut yourself using it).
+2. <a class="bookmarklet" href="javascript:(function () {console.debug('Loading BlackBox Plus Initial Keywording - TensorFlow');let script = document.createElement('script');script.src = 'https://blackboxplus.greyphoenix.biz/staging/initialKeywordingTensorflow.js';document.head.appendChild(script);})();">**BB+ Initial Keywording - `STAGING`**</a> - An image analysis system for adding some initial keywords
 
 Still coming:
 
-2. Initial Keywording - An image analysis system for adding some initial keywords (I'm looking forward to this one)
 3. Thesaurus - An interactive, on the edit page thesaurus for finding words faster (if people are interested)
 
 
