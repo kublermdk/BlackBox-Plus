@@ -17,10 +17,11 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
         if (!this.countInTabs || true === force) {
             this.setStatusLoading(`the count of items`);
             this.countInTabs = await this.callAPI(`/footage/count_in_tabs`);
-            console.debug("The countInTabs is: ", this.countInTabs);
+            // console.debug("The countInTabs is: ", this.countInTabs);
         }
         return this.countInTabs;
     }
+
 
     /**
      * Gather Footage Info
@@ -50,7 +51,7 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
             content: {
                 totalRecords: this.countInTabs.countContentFootages,
                 apiType: 'content/footage',
-                apiPost: '&contentFilter=O',
+                apiPost: '&contentFilter=A', // Get ALL the footage
             }
         };
 
@@ -58,7 +59,7 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
         let apiType = typeMapping[type].apiType;
         // let apiPost = typeMapping[type].apiPost;
         let pagesNeeded = Math.ceil(totalRecords / limit);
-        console.debug({type, totalRecords, apiType, pagesNeeded});
+        // console.debug({type, totalRecords, apiType, pagesNeeded});
         for (let page = 1; page <= pagesNeeded; page++) {
 
             let index = (page - 1) * limit + 1;
@@ -107,7 +108,7 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
 
                 let contributePromise = this.gatherFootageData('contribute').then(function (data) {
                     blackBoxPlusFootage.contribute = data;
-                    console.debug(`The contribue footage contains ${data.length} entries`);
+                    // console.debug(`The contribue footage contains ${data.length} entries`);
                 });
                 let curationPromise = this.gatherFootageData('curation').then(function (data) {
                     blackBoxPlusFootage.curation = data
@@ -119,7 +120,7 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
                 // When all completed
                 Promise.all([contributePromise, curationPromise, contentPromise]).then((data) => {
 
-                    console.debug('The footages data is: ', blackBoxPlusFootage);
+                    // console.debug('The footages data is: ', blackBoxPlusFootage);
                     this.addMessage(`<p>All Footage data loaded</p>`);
                     resolve(blackBoxPlusFootage);
 
@@ -138,12 +139,12 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
 
             let financialSummaryInfoPromise = this.getFinancialSummaryInfo().then(function (data) {
                 blackBoxPlusFinancials.financialSummaryInfo = data;
-                console.debug(`The financialSummaryInfo contains ${data.length} entries`);
+                // console.debug(`The financialSummaryInfo contains ${data.length} entries`);
             });
 
             let financialEarningsSummaryPromise = this.getFinancialEarningsSummary().then(function (data) {
                 blackBoxPlusFinancials.financialEarningsSummary = data;
-                console.debug(`The getFinancialEarningsSummary contains ${data.length} entries`);
+                // console.debug(`The getFinancialEarningsSummary contains ${data.length} entries`);
             });
             let getUnpaidEarningsPromise = this.getUnpaidEarnings().then(function (data) {
                 blackBoxPlusFinancials.unpaidEarnings = data;
@@ -243,6 +244,19 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
     }
 
 
+    /**
+     * Mainly for getting the email address of curation owners, their names are already output in the footage json
+     * @returns {Promise<*|undefined>}
+     *
+     * NB: This isn't used at the moment.
+     */
+    async getCurationOwners() {
+        // e.g https://portal.blackbox.global/api/member/5afd6163-a82a-4079-8e3b-592c349ae72d/curationFootage/getCurationOwners
+        // Example response: {"success":true,"data":[{"name":"Michael Kubler","value":"blackboxPlus+example@greyphoenix.biz"}]}
+        return this.callAPI(`curationFootage/getCurationOwners`);
+    }
+
+
     get urlBase() {
         if (this.urlBaseCache) {
             return this.urlBaseCache;
@@ -287,7 +301,7 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
         this.setStatusLoading(`items from ${uri}. Page ${page}`);
         let paginatedUri = `${uri}index=${index}&limit=${limit}`; // Add pagination query
         let response = await this.callAPI(paginatedUri, method);
-        console.debug(`The first paginated call to ${uri}`, {uri, paginatedUri, method, response});
+        // console.debug(`The first paginated call to ${uri}`, {uri, paginatedUri, method, response});
         let items = [];
         let pagesNeeded = 1;
         let totalRecords = 0;
@@ -311,12 +325,7 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
             let index = (page - 1) * limit + 1;
             this.setStatusLoading(`items from ${uri}. Page ${page} of ${pagesNeeded}`);
             paginatedUri = `${uri}?index=${index}&limit=${limit}`; // Add pagination query
-            console.debug(`About to make the ${page} paginated call to ${uri}`, {
-                uri,
-                paginatedUri,
-                pagesNeeded,
-                totalRecords
-            });
+            // console.debug(`About to make the ${page} paginated call to ${uri}`, {paginatedUri, pagesNeeded, totalRecords});
             response = await this.callAPI(paginatedUri, method);
             if (response.items) {
                 // Add the entries
