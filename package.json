@@ -1,14 +1,14 @@
 {
   "name": "blackbox_plus",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "BlackBox Plus - Created by [Michael Kubler](https://www.kublermdk.com/) of [Grey Phoenix Productions](https://www.greyphoenix.biz/)",
-  "main": "src/index.js",
+  "main": "src/expot.js",
   "private": true,
   "scripts": {
     "clean": "rm dist/bundle.js",
     "build-dev": "webpack -d --mode development --watch",
     "build-prod": "webpack -p --mode production",
-    "markdown": "marked -i README.md -o index.html -gfm --smart-lists"
+    "markdown": "marked -i STAGING.md -o staging.html -gfm --smart-lists"
   },
   "repository": {
     "type": "git",

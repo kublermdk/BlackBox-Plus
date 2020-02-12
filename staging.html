@@ -1,0 +1,69 @@
+<h1 id="blackbox-plus">BlackBox Plus</h1>
+<p>Created by <a href="https://www.kublermdk.com/">Michael Kubler</a> of <a href="https://www.greyphoenix.biz/">Grey Phoenix Productions</a></p>
+<p>Source code <a href="https://github.com/kublermdk/BlackBox-Plus">Available on Github</a> </p>
+<p>You need to drag and drop the bookmarks below into your browser toolbar. Then when you are on the portal.blackbox website you can click on one to activate the feature.</p>
+<p>Every time you refresh the page, you&#39;ll need to click the bookmarklet again to load it up.</p>
+<h2 id="bookmarklets">Bookmarklets</h2>
+<p>Directions:</p>
+<p>Drag the links below to your browser, go to <a href="https://portal.blackbox.global/">portal.blackbox.global</a> and when the page is loaded click the link and the extra functionality will be added.</p>
+<h2 id="bookmarklet-links-drag-these-to-your-browser-link-bar-">Bookmarklet Links (drag these to your browser link bar) :</h2>
+<ol>
+<li><a class="bookmarklet" href="javascript:(function () {console.debug('Loading BlackBox Plus Exporter');let script = document.createElement('script');script.src = 'https://blackboxplus.greyphoenix.biz/staging/export.js';document.head.appendChild(script);})();">BB+ Data Export - <strong>STAGING</strong></a> - Gives you CSV and JSON exports of your data. This links to the cutting edge version (so called because it might break and well, don&#39;t cut yourself using it).</li>
+</ol>
+<p>Still coming:</p>
+<ol start="2">
+<li>Initial Keywording - An image analysis system for adding some initial keywords (I&#39;m looking forward to this one)</li>
+<li>Thesaurus - An interactive, on the edit page thesaurus for finding words faster (if people are interested)</li>
+</ol>
+<p>Still to come: gif/images which explain how to use these.</p>
+<h2 id="intro">Intro</h2>
+<p><a href="https://blackbox.global/">BlackBox</a> is a stock footage submission platform, community and more.</p>
+<blockquote>
+<p>BlackBox is a creator community and platform that allows creators all over the world to connect, share the work, share the content and share the passive income..</p>
+</blockquote>
+<p>The <a href="https://portal.blackbox.global/">BlackBox Portal</a> is the system used for dealing with submissions, keywording and more.</p>
+<p><strong>BlackBox Plus</strong> is a set of bookmarklets designed to add extra functionality to the BlackBox portal site.</p>
+<h3 id="what-is-a-bookmarklet">What is a Bookmarklet?</h3>
+<p>A bookmarklet looks like a link, but actually executes javascript code in your browser. Note that you can&#39;t see the Bookmarklets in the Github README file. You have to view them at <a href="https://blackboxplus.greyphoenix.biz/">blackboxplus.greyphoenix.biz</a></p>
+<h2 id="data-export">Data Export</h2>
+<p>The <code>BB+ Data Export</code> bookmarklet allows you to download the financial and stock footage data as CSV or JSON files. The CSV files can be opened up in a spreadsheet app, Google Docs, etc...</p>
+<p>This means you can get a list of all your submitted footage with the keywords, descriptions and original filenames, plus other information. You can also get a list of all sales and more.</p>
+<p>The bookmarklet uses your browser to call the BlackBox API similar to you going to the pages individually. But it gets all the paginated data and converts the results to CSV.
+Nothing is downloaded to your computer or sent anywhere until you click the links. The links themselves contain the data.</p>
+<p>Because this makes multiple requests to the BlackBox API thus adding load to their servers and possibly making the system slower for others it&#39;s recommended you don&#39;t abuse this. e.g Don&#39;t use it 10x an hour.</p>
+<h2 id="initial-keywording">Initial Keywording</h2>
+<p>This uses a Machine Learning system to grab frames of the video and attempt to detect things within that image.
+This is only designed to reduce the burden on people doing keywording by automatically adding keywords for the obvious THINGS in the frames.
+Allowing curators to focus more on adding the emotional and movement keywords.</p>
+<p>The free TensorFlow version uses the MobileNet Image Classification system (and possibly the Object Detection system using Coco SSD).</p>
+<p>If there&#39;s interest I could add integration with Google&#39;s Cloud Vision API which can produce much better results, however it will do so at a cost and you&#39;ll need to create a Google project yourself.</p>
+<p>If your not sure what curating requires then check out Victoria Smith&#39;s <a href="https://skl.sh/2MZ1hsM">Metadata Curator Skillshare course</a>. </p>
+<h2 id="compatibility">Compatibility</h2>
+<p>This functionality isn&#39;t tested on older browsers and isn&#39;t going to work on a mobile phone (how do you click the Bookmarklet?).</p>
+<h2 id="resources">Resources</h2>
+<p><a href="https://www.tensorflow.org/js">https://www.tensorflow.org/js</a> TensorFlow image processing</p>
+<p><a href="https://cloud.google.com/vision/docs/labels">https://cloud.google.com/vision/docs/labels</a> - The Google Cloud label example. e.g Street, Snapshot, Town, Night, Alley</p>
+<p><a href="https://cloud.google.com/vision/docs/object-localizer">https://cloud.google.com/vision/docs/object-localizer</a> - Object Localiser. e.g Bicycle, Picture frame, Tire, Door</p>
+<h2 id="technical-details">Technical details</h2>
+<p>The <code>bookmarklet</code> looks like a bookmark but is a piece of Javascript code which runs when you click on it.
+This repo is available publicly in order for other developers to be able to review the code for any issues, learn how it works and also suggest any changes.</p>
+<h3 id="use-at-your-own-risk">Use at your own risk</h3>
+<p>Michael is a fellow stock footage film maker and also web developer.
+Michael will do what he can to ensure the code works well and doesn&#39;t cause any issues. But accepts no liabilities for any issues caused by using this. The code has been developed independently from BlackBox itself.</p>
+<p>Please note, certain services, such as the Google Machine learning calls come with associated costs. Others, like the Tensorflow model require 20MB downloads. The analytics system uploads your images and submitted keywords in order to create better trained models and improve the system overall.</p>
+<h3 id="imagery-access">Imagery Access</h3>
+<p>By using the <code>Initial Keywording</code> system you agree to provide <a href="https://www.greyphoenix.biz"><strong>G</strong>rey <strong>P</strong>hoenix <strong>P</strong>roductions</a> (the creator of the BlackBox Plus system) authorised uses to the images used and submitted keyword information.
+This information can then be used to create better quality machine learning training models and in turn better keywords.</p>
+<h2 id="full-legals">Full Legals:</h2>
+<p>Copyright © 2020 <a href="https://www.kublermdk.com/">Michael Kubler</a> of <strong>G</strong>rey <strong>P</strong>hoenix <strong>P</strong>roductions</p>
+<blockquote>
+<p>Permission to use, copy, modify, and/or distribute this software for any purpose without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.</p>
+</blockquote>
+<blockquote>
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</p>
+</blockquote>
+<h2 id="other-notes">Other notes</h2>
+<p>Ideally BlackBox will integrate some of these features into their website and you won&#39;t need to use this anymore.
+Alternatively BlackBox may choose to disable this functionality, in which case, talk to Pat about it.</p>
+<p>The <a href="https://github.com/kublermdk/BlackBox-Plus">code provided here</a> is available open source, especially for openness and transparency.</p>
+<link media="all" rel="stylesheet" href="index.css" />

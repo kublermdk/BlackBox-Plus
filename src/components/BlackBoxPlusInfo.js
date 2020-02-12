@@ -1,5 +1,3 @@
-// @todo import zepto?
-
 /**
  * =================================================================
  *  The base component
@@ -55,7 +53,7 @@ export default class BlackBoxPlusInfo {
             this.setHeader(header);
             this.setInterface(`<h2>BlackBox Plus ${header}</h2>`);
         }
-        this.addMessage(`<hr /><h3>Messages</h3>`);
+        this.addMessage(`<hr /><h3>Messages</h3><a>You can add this bookmarklet from <a href="https://blackboxplus.greyphoenix.biz/">blackboxplus.greyphoenix.biz</a> and checkout the codebase on <a href="https://github.com/kublermdk/BlackBox-Plus">Github</a></p>`);
         // this.addMessage('<p>Initial Loading complete</p>');
     }
 

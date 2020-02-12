@@ -17,7 +17,7 @@ Drag the links below to your browser, go to [portal.blackbox.global](https://por
 
 ## Bookmarklet Links (drag these to your browser link bar) :
 
-1. <a class="bookmarklet" href="javascript:(function () {console.debug('Loading BlackBox Plus Exporter');let script = document.createElement('script');script.src = 'https://blackboxplus.greyphoenix.biz/dist/export.js';document.head.appendChild(script);})();">BB+ Data Export</a> - Gives you CSV and JSON exports of your data.
+1. <a class="bookmarklet" href="javascript:(function () {console.debug('Loading BlackBox Plus Exporter');let script = document.createElement('script');script.src = 'https://blackboxplus.greyphoenix.biz/staging/export.js';document.head.appendChild(script);})();">BB+ Data Export - **STAGING**</a> - Gives you CSV and JSON exports of your data. This links to the cutting edge version (so called because it might break and well, don't cut yourself using it).
 
 Still coming:
 

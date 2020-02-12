@@ -11,7 +11,7 @@ module.exports = (env, args) => {
             initialKeywordingTensorflow: './src/initialKeywording-Tensorflow.js',
         },
         output: {
-            path: path.resolve(__dirname, 'dist'),
+            path: path.resolve(__dirname, 'staging'),
             filename: '[name].js',
         },
         // devtool: "source-map", // Enable source mapping creation
