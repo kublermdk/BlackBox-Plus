@@ -295,7 +295,7 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
      * @param limit
      * @returns {Promise<[]>}
      */
-    async callPaginatedAPI(uri, method = 'GET', limit = 2) {
+    async callPaginatedAPI(uri, method = 'GET', limit = 200) {
         let index = 1;
         let page = 1;
         this.setStatusLoading(`items from ${uri}. Page ${page}`);
@@ -317,6 +317,10 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
             totalRecords = response.pageInfo.totalRecords;
             pagesNeeded = Math.ceil(totalRecords / limit);
         }
+        if (pagesNeeded < 2) {
+            // Only 1 page of responses needed
+            return items;
+        }
 
         //  --------------------------------------------------
         //   Make the Paginated Calls (if needed)
@@ -324,7 +328,7 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
         for (page = 2; page <= pagesNeeded; page++) {
             let index = (page - 1) * limit + 1;
             this.setStatusLoading(`items from ${uri}. Page ${page} of ${pagesNeeded}`);
-            paginatedUri = `${uri}?index=${index}&limit=${limit}`; // Add pagination query
+            paginatedUri = `${uri}index=${index}&limit=${limit}`; // Add pagination query
             // console.debug(`About to make the ${page} paginated call to ${uri}`, {paginatedUri, pagesNeeded, totalRecords});
             response = await this.callAPI(paginatedUri, method);
             if (response.items) {
