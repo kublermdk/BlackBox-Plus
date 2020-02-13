@@ -13,8 +13,6 @@ Every time you refresh the page, you'll need to click the bookmarklet again to l
 **Directions:**
 
 Drag the links below to your browser, go to [portal.blackbox.global](https://portal.blackbox.global/) and when the page is loaded click the link and the extra functionality will be added.
-![Drag Bookmarklet to Browser Bookmark Bar](images/bbox_plus_example_drag_to_bookmarklet_bar_short.png "Example of how to drag the Bookmarklet to Browser Bookmark Bar")
-
 
 ## Bookmarklet Links (drag these to your browser link bar) :
 
