@@ -5,8 +5,7 @@
 <p>Every time you refresh the page, you&#39;ll need to click the bookmarklet again to load it up.</p>
 <h2 id="bookmarklets">Bookmarklets</h2>
 <p><strong>Directions:</strong></p>
-<p>Drag the links below to your browser, go to <a href="https://portal.blackbox.global/">portal.blackbox.global</a> and when the page is loaded click the link and the extra functionality will be added.
-<img src="images/bbox_plus_example_drag_to_bookmarklet_bar_short.png" alt="Drag Bookmarklet to Browser Bookmark Bar" title="Example of how to drag the Bookmarklet to Browser Bookmark Bar"></p>
+<p>Drag the links below to your browser, go to <a href="https://portal.blackbox.global/">portal.blackbox.global</a> and when the page is loaded click the link and the extra functionality will be added.</p>
 <h2 id="bookmarklet-links-drag-these-to-your-browser-link-bar-">Bookmarklet Links (drag these to your browser link bar) :</h2>
 <ol>
 <li><a class="bookmarklet" href="javascript:(function () {console.debug('Loading BlackBox Plus Exporter');let script = document.createElement('script');script.src = 'https://blackboxplus.greyphoenix.biz/dist/export.js';document.head.appendChild(script);})();">BB+ Data Export</a> - Gives you CSV and JSON exports of your data.</li>
@@ -32,8 +31,8 @@
 <p>The bookmarklet uses your browser to call the BlackBox API similar to you going to the pages individually. But it gets all the paginated data and converts the results to CSV.
 Nothing is downloaded to your computer or sent anywhere until you click the links. The links themselves contain the data.</p>
 <p>Because this makes multiple requests to the BlackBox API thus adding load to their servers and possibly making the system slower for others it&#39;s recommended you don&#39;t abuse this. e.g Don&#39;t use it 10x an hour.</p>
-<p>Example output after completing processing:
-<img src="images/bbox_plus_example_data_export_with_annotations.png" alt="Example Data Export output after completing processing with annotations" title="Example Data Export output after completing processing"></p>
+<p><strong>Example output after completing processing:</strong></p>
+<p><img src="images/bbox_plus_example_data_export_with_annotations.png" alt="Example Data Export output after completing processing with annotations"></p>
 <h2 id="initial-keywording">Initial Keywording</h2>
 <p>This uses a Machine Learning system to grab frames of the video and attempt to detect things within that image.</p>
 <p>This is only designed to reduce the burden on people doing keywording by automatically adding keywords for the obvious THINGS in the frames.
@@ -43,8 +42,8 @@ Thus allowing curators to focus more on adding the emotional and movement keywor
 <p>Another option, if there&#39;s interest is integrating with Google&#39;s Cloud Vision API ( or Amazon&#39;s) which can produce much better results, however it will do so at a cost and you&#39;ll need to create a Google project yourself.</p>
 <p>Another option I&#39;m interested in is allowing the BlackBox community to train our own model by using our video frames and final keywords as a basis for training a better machine learning model.</p>
 <p>If your not sure what curating requires then check out Victoria Smith&#39;s <a href="https://skl.sh/2MZ1hsM">Metadata Curator Skillshare course</a>. </p>
-<p>Example keywording:
-<img src="images/bbox_plus_example_process_current_video_frame_with_annotations.png" alt="Example Initial Keywording usage and output" title="Example Initial Keywording usage and output"></p>
+<p><strong>Example keywording:</strong></p>
+<p><img src="images/bbox_plus_example_process_current_video_frame_with_annotations.png" alt="Example Initial Keywording usage and output"></p>
 <h4 id="resources">Resources</h4>
 <p><a href="https://www.tensorflow.org/js">https://www.tensorflow.org/js</a> TensorFlow image processing</p>
 <p><a href="https://cloud.google.com/vision/docs/labels">https://cloud.google.com/vision/docs/labels</a> - The Google Cloud label example. e.g Street, Snapshot, Town, Night, Alley</p>

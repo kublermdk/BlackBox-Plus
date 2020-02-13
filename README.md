@@ -52,8 +52,9 @@ Nothing is downloaded to your computer or sent anywhere until you click the link
 
 Because this makes multiple requests to the BlackBox API thus adding load to their servers and possibly making the system slower for others it's recommended you don't abuse this. e.g Don't use it 10x an hour.
 
-Example output after completing processing:
-![Example Data Export output after completing processing with annotations](images/bbox_plus_example_data_export_with_annotations.png "Example Data Export output after completing processing")
+**Example output after completing processing:**
+
+![Example Data Export output after completing processing with annotations](images/bbox_plus_example_data_export_with_annotations.png)
 
 
 ## Initial Keywording
@@ -73,8 +74,9 @@ Another option I'm interested in is allowing the BlackBox community to train our
 
 If your not sure what curating requires then check out Victoria Smith's [Metadata Curator Skillshare course](https://skl.sh/2MZ1hsM). 
 
-Example keywording:
-![Example Initial Keywording usage and output](images/bbox_plus_example_process_current_video_frame_with_annotations.png "Example Initial Keywording usage and output")
+**Example keywording:**
+
+![Example Initial Keywording usage and output](images/bbox_plus_example_process_current_video_frame_with_annotations.png)
 
 
 #### Resources
