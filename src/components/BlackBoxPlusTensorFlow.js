@@ -1,6 +1,6 @@
 import BlackBoxPlusInfo from "./BlackBoxPlusInfo";
-import * as MobileNet from '@tensorflow-models/mobilenet';
-import * as tf from '@tensorflow/tfjs';
+import * as mobilenet from "@tensorflow-models/mobilenet";
+// import * as tf from '@tensorflow/tfjs';
 
 export default class BlackBoxPlusTensorFlow extends BlackBoxPlusInfo {
 
@@ -26,8 +26,9 @@ export default class BlackBoxPlusTensorFlow extends BlackBoxPlusInfo {
 
     async loadTensorFlow() {
         this.setStatusLoading(`TensorFlow`);
-        this.mobilenet = new MobileNet(); // Based on https://github.com/tensorflow/tfjs/blob/master/tfjs-converter/demo/mobilenet/index.js
-        this.mobilenetModel = await this.mobilenet.load();
+        return true;
+        // this.mobilenet = new MobileNet(); // Based on https://github.com/tensorflow/tfjs/blob/master/tfjs-converter/demo/mobilenet/index.js
+        // this.mobilenetModel = await this.mobilenet.load();
         // import * as tf from '@tensorflow/tfjs';
         // const MODEL_URL = 'https://.../mobilenet/model.json';
         // https://github.com/tensorflow/tfjs/blob/master/tfjs-converter/demo/mobilenet/index.js
@@ -41,7 +42,7 @@ export default class BlackBoxPlusTensorFlow extends BlackBoxPlusInfo {
         // <script src="https://unpkg.com/@tensorflow/tfjs"></script>
         // <script src="https://unpkg.com/@tensorflow-models/mobilenet"></script>
         // this.dynamicallyLoadScript('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs');
-        // this.dynamicallyLoadScript('https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet');
+        // this.dynamicallyLoadScript('https://unpkg.com/@tensorflow-models/mobilenet@2.0.4/dist/index.js');
         // await new Promise((resolve, reject) => {
         //     setTimeout(() => {
         //         this.setStatusLoading(`MobileNet`);
@@ -149,10 +150,13 @@ export default class BlackBoxPlusTensorFlow extends BlackBoxPlusInfo {
 
     async processCurrentVideoFrame() {
         let videoFrame = this.getCurrentVideoFrame(); // as context, img
-        // const imgEl = document.getElementById('img');
-        const mobilenetResult = await this.mobilenetModel.classify(videoFrame.context, this.topk);
-        console.debug("The result of the MobileNet Classification is: ", mobilenetResult);
-        return mobilenetResult;
+        let net;
+        net = await mobilenet.load();
+        console.debug('Mobilenet Loaded');
+        const result = await net.classify(videoFrame.context, this.topk);
+        // const mobilenetResult = await this.mobilenetModel.classify(videoFrame.context, this.topk);
+        console.debug("The result of the MobileNet Classification is: ", result);
+        return result;
 
         /* Example response:
             [{className: "Egyptian cat", probability: 0.8380282521247864},
