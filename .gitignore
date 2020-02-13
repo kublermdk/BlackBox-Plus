@@ -1,6 +1,7 @@
 .idea/
 .cache/
 coverage/
+staging/*
 node_modules/
 *.log
 

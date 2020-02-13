@@ -22,7 +22,6 @@ export default class BlackBoxPlusExport extends BlackBoxPlusInfo {
         return this.countInTabs;
     }
 
-
     /**
      * Gather Footage Info
      * @param type Type can be one of: contribute, curation, content

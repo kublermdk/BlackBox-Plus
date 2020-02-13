@@ -1,5 +1,3 @@
-// @todo import zepto?
-
 /**
  * =================================================================
  *  The base component
@@ -55,7 +53,7 @@ export default class BlackBoxPlusInfo {
             this.setHeader(header);
             this.setInterface(`<h2>BlackBox Plus ${header}</h2>`);
         }
-        this.addMessage(`<hr /><h3>Messages</h3>`);
+        this.addMessage(`<hr /><h3>Messages</h3><a>You can add this bookmarklet from <a href="https://blackboxplus.greyphoenix.biz/">blackboxplus.greyphoenix.biz</a> and checkout the codebase on <a href="https://github.com/kublermdk/BlackBox-Plus">Github</a></p>`);
         // this.addMessage('<p>Initial Loading complete</p>');
     }
 
@@ -172,6 +170,7 @@ export default class BlackBoxPlusInfo {
 
     dynamicallyLoadScript(url) {
         var script = document.createElement("script");  // create a script DOM node
+        script.type = 'text/javascript';
         script.src = url;  // set its src to the provided URL
         document.head.appendChild(script);  // add it to the end of the head section of the page (could change 'head' to 'body' to add it to the end of the body section instead)
     }
@@ -329,6 +328,21 @@ export default class BlackBoxPlusInfo {
         }
         format = format.replace(/{m}/g, mm);
         return format;
+    }
+
+    /**
+     * Based off https://stackoverflow.com/a/3662980/7299352
+     * @param str
+     * @returns {DocumentFragment}
+     */
+    createNewElement( str ) {
+        let frag = document.createDocumentFragment();
+        let elem = document.createElement('div');
+        elem.innerHTML = str;
+        while (elem.childNodes[0]) {
+            frag.appendChild(elem.childNodes[0]);
+        }
+        return frag;
     }
 
 }
