@@ -1,12 +1,15 @@
 import BlackBoxPlusInfo from "./BlackBoxPlusInfo";
-import * as mobilenet from '@tensorflow-models/mobilenet';
+import * as MobileNet from '@tensorflow-models/mobilenet';
+import * as tf from '@tensorflow/tfjs';
 
 export default class BlackBoxPlusTensorFlow extends BlackBoxPlusInfo {
 
     header = 'BB+ Init Keywording';
     blackBoxPlusInfo;
+    mobilenet;
     mobilenetModel;
     topk = 8; // Number of the top probabilities to return
+    // mobilenetUrl = 'https://.../mobilenet/model.json';
 
     /*
     Process:
@@ -23,7 +26,17 @@ export default class BlackBoxPlusTensorFlow extends BlackBoxPlusInfo {
 
     async loadTensorFlow() {
         this.setStatusLoading(`TensorFlow`);
-        this.mobilenetModel = mobilenet.load(); // @todo Idleize this
+        this.mobilenet = new MobileNet(); // Based on https://github.com/tensorflow/tfjs/blob/master/tfjs-converter/demo/mobilenet/index.js
+        this.mobilenetModel = await this.mobilenet.load();
+        // import * as tf from '@tensorflow/tfjs';
+        // const MODEL_URL = 'https://.../mobilenet/model.json';
+        // https://github.com/tensorflow/tfjs/blob/master/tfjs-converter/demo/mobilenet/index.js
+
+// For Keras use tf.loadLayersModel().
+//         const model = await tf.loadGraphModel(MODEL_URL);
+//         const cat = document.getElementById('cat');
+//         model.predict(tf.browser.fromPixels(cat));
+        // this.mobilenetModel = await mobilenet.load(); // @todo Idleize this
         // As per https://github.com/tensorflow/tfjs-models/tree/master/mobilenet
         // <script src="https://unpkg.com/@tensorflow/tfjs"></script>
         // <script src="https://unpkg.com/@tensorflow-models/mobilenet"></script>
