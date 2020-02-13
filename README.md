@@ -23,8 +23,6 @@ Still coming:
 
 3. Thesaurus - An interactive, on the edit page thesaurus for finding words faster (if people are interested)
 
-Also still to come: gif/images which explain how to use these.
-
 ## Intro
 
 [BlackBox](https://blackbox.global/) is a stock footage submission platform, community and more.
@@ -70,7 +68,7 @@ Future enhancements include possibly using the Object Detection system called Co
 
 Another option, if there's interest is integrating with Google's Cloud Vision API ( or Amazon's) which can produce much better results, however it will do so at a cost and you'll need to create a Google project yourself.
 
-Another option I'm interested in is allowing the BlackBox community to train our own model by using our video frames and final keywords as a basis for training a better machine learning model.
+Yet another option I'm interested in is allowing the BlackBox community to train our own model by using our video frames and final keywords as a basis for training a better machine learning model.
 
 If your not sure what curating requires then check out Victoria Smith's [Metadata Curator Skillshare course](https://skl.sh/2MZ1hsM). 
 
