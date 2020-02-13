@@ -330,4 +330,19 @@ export default class BlackBoxPlusInfo {
         return format;
     }
 
+    /**
+     * Based off https://stackoverflow.com/a/3662980/7299352
+     * @param str
+     * @returns {DocumentFragment}
+     */
+    createNewElement( str ) {
+        let frag = document.createDocumentFragment();
+        let elem = document.createElement('div');
+        elem.innerHTML = str;
+        while (elem.childNodes[0]) {
+            frag.appendChild(elem.childNodes[0]);
+        }
+        return frag;
+    }
+
 }

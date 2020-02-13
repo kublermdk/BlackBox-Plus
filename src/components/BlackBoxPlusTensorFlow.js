@@ -9,6 +9,7 @@ export default class BlackBoxPlusTensorFlow extends BlackBoxPlusInfo {
     mobilenet;
     mobilenetModel;
     topk = 8; // Number of the top probabilities to return
+    minimumMobilenetProbability = 0.01;
     // mobilenetUrl = 'https://.../mobilenet/model.json';
 
     /*
@@ -80,6 +81,7 @@ export default class BlackBoxPlusTensorFlow extends BlackBoxPlusInfo {
     getCurrentVideoFrame() {
         let vid = document.getElementById('videoControl');
         if (!vid || !vid.plyr) {
+            this.setStatusError('Please load a video first');
             this.addFlashMessage('No active video available. Press play and load the video up first');
             return false;
         }
@@ -149,13 +151,17 @@ export default class BlackBoxPlusTensorFlow extends BlackBoxPlusInfo {
     }
 
     async processCurrentVideoFrame() {
+        this.setStatusProcessing('analysing current video frame');
         let videoFrame = this.getCurrentVideoFrame(); // as context, img
         let net;
         net = await mobilenet.load();
         console.debug('Mobilenet Loaded');
-        const result = await net.classify(videoFrame.context, this.topk);
+        const result = await net.classify(videoFrame.img, this.topk);
         // const mobilenetResult = await this.mobilenetModel.classify(videoFrame.context, this.topk);
         console.debug("The result of the MobileNet Classification is: ", result);
+        // videoFrame.context.remove();
+        videoFrame.img.remove();
+        this.setStatusDone('Image Analysis Complete');
         return result;
 
         /* Example response:
@@ -165,9 +171,37 @@ export default class BlackBoxPlusTensorFlow extends BlackBoxPlusInfo {
          */
     }
 
-    displayKeywordsFromClassification(classificationResponse, videoFrame = null) {
+    displayKeywordsFromClassification(classificationResponse) {
         let keywords = [];
-        this.addMessage(`<p>Keywords to be added here based off <code>${JSON.stringify(classificationResponse)}</code></p>`);
+        let minimumMobilenetProbability = this.minimumMobilenetProbability;
+        if (!Array.isArray(classificationResponse)) {
+            throw new Error('Expecting classificationResponse to be an array');
+        }
+
+        // @todo: Sort by probability if there's multiple responses being merged together
+        // @todo: Remove low probability entries
+        classificationResponse.forEach(function (classification, index) {
+            if (classification.probability > minimumMobilenetProbability) {
+                keywords.push(classification.className);
+            }
+        });
+        let keywordsAsCSV = keywords.join();
+
+        // this.addFlashMessage()
+        /* Example response:
+            [{className: "Egyptian cat", probability: 0.8380282521247864},
+            {className: "tabby, tabby cat", probability: 0.04644153267145157},
+            {className: "Siamese cat, Siamese", probability: 0.024488523602485657}]
+         */
+        let keywordsContent = `<p class="bbox_plus bbox_plus_keywords">The suggested initial keywords are <code class="bbox_plus_keywords_list">${keywordsAsCSV}</code></p>`;
+        if ($('.edit-keywords') && $('.edit-keywords').length > 0) {
+            let editKeywordsElement = $('.edit-keywords')[0];
+            editKeywordsElement.parentElement.appendChild(this.createNewElement(keywordsContent));
+        }
+        this.addFlashMessage(`Added the ${keywords.length} keywords`, 'success');
+        this.addMessage(keywordsContent); // @todo Show the full list not the reduced list
+        this.setStatusDone('Image Keywords added');
+        this.getCanvas(false).remove(); // Remove the canvas
     }
 
 
@@ -192,7 +226,7 @@ export default class BlackBoxPlusTensorFlow extends BlackBoxPlusInfo {
             this.infoElement.getElementsByTagName("img").forEach(function (img) {
                 img.remove();
             }); // Remove the images after a few seconds
-        }, 3000);
+        }, 8000);
     };
 
 }
