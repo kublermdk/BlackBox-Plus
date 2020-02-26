@@ -1,0 +1,42 @@
+<form id="bbox_plus_save_keyword_settings">
+    <p>
+        <label>
+            <input type="checkbox" name="googleVision" value="1" id="bbox_plus_form_google_vision_enabled">
+            Enable <a href="#">Google Vision</a> (Costs $ money per request but good quality)
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="checkbox" name="tensorFlow" id="bbox_plus_form_tensorflow_enabled" checked>
+            Enable <a href="#">TensorFlow</a> (Processed in the browser)
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="checkbox" name="analytics" id="bbox_plus_form_analytics_enabled" checked>
+            Enable <a href="#">Analytics</a> (Allows better TensorFlow processing over time)
+        </label>
+    </p>
+    <hr/>
+    <h3>Google Vision Requests</h3>
+    <p>
+        <label>Google Vision Authentication JSON
+            <textarea id="bbox_plus_form_google_vision_auth"></textarea>
+        </label>
+    </p>
+
+    <p>
+        <label>
+            <input type="checkbox" name="analytics" id="bbox_plus_form_gv_faces">
+            Enable <a href="https://cloud.google.com/vision/docs/detecting-faces" title="Face Detection detects multiple faces within an image along with the associated key facial attributes such as emotional state or wearing headwear">
+            Faces Detection</a>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="checkbox" name="analytics" id="bbox_plus_form_gv_ocr">
+            Enable <a href="https://cloud.google.com/vision/docs/ocr" title="Detect and extract text from images">
+            OCR Detection</a>
+        </label>
+    </p>
+</form>

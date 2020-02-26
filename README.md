@@ -76,6 +76,41 @@ If your not sure what curating requires then check out Victoria Smith's [Metadat
 
 ![Example Initial Keywording usage and output](images/bbox_plus_example_process_current_video_frame_with_annotations.png)
 
+## Example Google Vision 
+https://cloud.google.com/vision/docs/drag-and-drop
+You can test out an example of the Google Vision API by visiting the Drag and Drop page and uploading an image.
+
+
+### Label Detection
+The Vision API can detect and extract information about entities in an image, across a broad group of categories.
+
+Labels can identify general objects, locations, activities, animal species, products, and more.
+
+![Google Vision Example](images/google-vision-label.webp)
+
+
+### Face Detection with emotions
+[Face Detection with emotions](https://cloud.google.com/vision/docs/detecting-faces)
+Face Detection detects multiple faces within an image along with the associated key facial attributes such as emotional state or wearing headwear. Specific individual Facial Recognition is not supported.
+
+![Google Vision Example](images/google-vision-face.webp)
+
+
+### Landmark Detection
+Landmark Detection detects popular natural and man-made structures within an image.
+
+![Google Vision Example](images/google-vision-landmark.webp)
+
+
+### Image Properties (Dominant Colours) NOT YET IMPLIMENTED
+The Image Properties feature detects general attributes of the image, such as dominant color.
+
+The colours are converted to a name using the [Name that Colour](http://chir.ag/projects/name-that-color/) library.
+
+![Google Vision Example](images/google-vision-properties.webp)
+
+
+API: `https://vision.googleapis.com/v1/images:annotate`
 
 #### Resources
 https://www.tensorflow.org/js TensorFlow image processing

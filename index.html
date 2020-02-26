@@ -43,6 +43,25 @@ Thus allowing curators to focus more on adding the emotional and movement keywor
 <p>If your not sure what curating requires then check out Victoria Smith&#39;s <a href="https://skl.sh/2MZ1hsM">Metadata Curator Skillshare course</a>. </p>
 <p><strong>Example keywording:</strong></p>
 <p><img src="images/bbox_plus_example_process_current_video_frame_with_annotations.png" alt="Example Initial Keywording usage and output"></p>
+<h2 id="example-google-vision">Example Google Vision</h2>
+<p><a href="https://cloud.google.com/vision/docs/drag-and-drop">https://cloud.google.com/vision/docs/drag-and-drop</a>
+You can test out an example of the Google Vision API by visiting the Drag and Drop page and uploading an image.</p>
+<h3 id="label-detection">Label Detection</h3>
+<p>The Vision API can detect and extract information about entities in an image, across a broad group of categories.</p>
+<p>Labels can identify general objects, locations, activities, animal species, products, and more.</p>
+<p><img src="images/google-vision-label.webp" alt="Google Vision Example"></p>
+<h3 id="face-detection-with-emotions">Face Detection with emotions</h3>
+<p><a href="https://cloud.google.com/vision/docs/detecting-faces">Face Detection with emotions</a>
+Face Detection detects multiple faces within an image along with the associated key facial attributes such as emotional state or wearing headwear. Specific individual Facial Recognition is not supported.</p>
+<p><img src="images/google-vision-face.webp" alt="Google Vision Example"></p>
+<h3 id="landmark-detection">Landmark Detection</h3>
+<p>Landmark Detection detects popular natural and man-made structures within an image.</p>
+<p><img src="images/google-vision-landmark.webp" alt="Google Vision Example"></p>
+<h3 id="image-properties-dominant-colours-not-yet-implimented">Image Properties (Dominant Colours) NOT YET IMPLIMENTED</h3>
+<p>The Image Properties feature detects general attributes of the image, such as dominant color.</p>
+<p>The colours are converted to a name using the <a href="http://chir.ag/projects/name-that-color/">Name that Colour</a> library.</p>
+<p><img src="images/google-vision-properties.webp" alt="Google Vision Example"></p>
+<p>API: <code>https://vision.googleapis.com/v1/images:annotate</code></p>
 <h4 id="resources">Resources</h4>
 <p><a href="https://www.tensorflow.org/js">https://www.tensorflow.org/js</a> TensorFlow image processing</p>
 <p><a href="https://cloud.google.com/vision/docs/labels">https://cloud.google.com/vision/docs/labels</a> - The Google Cloud label example. e.g Street, Snapshot, Town, Night, Alley</p>

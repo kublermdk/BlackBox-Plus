@@ -265,3 +265,5 @@ body {
 .bookmarklet {
     font-weight: bold;
 }
+
+img[alt="Google Vision Example"] { height: auto; width: 550px; }
