@@ -26,6 +26,9 @@
         <textarea id="bbox_plus_form_google_vision_auth"></textarea>
     </label>
     <br/>
+    <button id="bbox_plus_form_save_google_vision_json">Save Authentication</button>
+    <br/>
+    <br/>
     <!-- @todo: Get the select all / deselect all options working -->
     <button id="bbox_plus_form_select_all_gv">Select All</button>
     <br/>
@@ -37,10 +40,28 @@
 
     <!-- Google Labels -->
     <label>
-        <input type="checkbox" name="gv_labels" class="bbox_plus_gv" id="bbox_plus_form_gv_labels">
-        Enable <a href="https://cloud.google.com/vision/docs/ocr"
+        <input type="checkbox" name="gv_labels" class="bbox_plus_gv" id="bbox_plus_form_gv_labels" checked>
+        Enable <a href="https://cloud.google.com/vision/docs/detecting-landmarks"
                   title="Labels can identify general objects, locations, activities, animal species, products, and more">
         Label Detection</a>
+    </label>
+    <br/>
+
+    <!-- Google Objects -->
+    <label>
+        <input type="checkbox" name="gv_labels" class="bbox_plus_gv" id="bbox_plus_form_gv_objects" checked>
+        Enable <a href="https://cloud.google.com/vision/docs/object-localizer"
+                  title="Object localization identifies multiple objects">
+        Object Detection</a>
+    </label>
+    <br/>
+
+    <!-- Google Landmarks -->
+    <label>
+        <input type="checkbox" name="gv_labels" class="bbox_plus_gv" id="bbox_plus_form_gv_landmarks" checked>
+        Enable <a href="https://cloud.google.com/vision/docs/detecting-landmarks"
+                  title="Detects popular natural and man-made structures">
+        Landmark Detection</a>
     </label>
     <br/>
 
@@ -48,16 +69,40 @@
     <label>
         <input type="checkbox" name="gv_faces" class="bbox_plus_gv" id="bbox_plus_form_gv_faces">
         Enable <a href="https://cloud.google.com/vision/docs/detecting-faces"
-                  title="Face Detection detects multiple faces within an image along with the associated key facial attributes such as emotional state or wearing headwear">
-        Faces Detection</a>
+                  title="Face Detection detects multiple faces, along with the associated key facial attributes such as emotional state or wearing headwear">
+        Face Detection</a>
     </label>
     <br/>
 
     <!-- Google  OCR -->
     <label>
         <input type="checkbox" name="gv_ocr" class="bbox_plus_gv" id="bbox_plus_form_gv_ocr">
-        Enable <a href="https://cloud.google.com/vision/docs/ocr" title="Detect and extract text from images">
+        Enable <a href="https://cloud.google.com/vision/docs/ocr" title="Detect and extract text">
         OCR Detection</a>
+    </label>
+    <br/>
+
+    <!-- Google Logos -->
+    <label>
+        <input type="checkbox" name="gv_ocr" class="bbox_plus_gv" id="bbox_plus_form_gv_logos">
+        Enable <a href="https://cloud.google.com/vision/docs/detecting-logos" title="Detects popular product logos">
+        Logo Detection</a>
+    </label>
+    <br/>
+
+    <!-- Google Explicit Content (Safe Search) -->
+    <label>
+        <input type="checkbox" name="gv_ocr" class="bbox_plus_gv" id="bbox_plus_form_gv_safe_search">
+        Enable <a href="https://cloud.google.com/vision/docs/detecting-safe-search" title="SafeSearch Detection detects explicit content such as adult content or violent content. This feature uses five categories (adult, spoof, medical, violence, and racy)">
+        Explicit Content</a>
+    </label>
+    <br/>
+
+    <!-- Google Similar Content -->
+    <label>
+        <input type="checkbox" name="gv_ocr" class="bbox_plus_gv" id="bbox_plus_form_gv_similar_content">
+        Enable <a href="https://cloud.google.com/vision/docs/detecting-web" title="Detects Web entities and pages with similar content and a best guess at the labels">
+        Similar Content</a>
     </label>
     <br/>
 
