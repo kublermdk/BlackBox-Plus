@@ -1,42 +1,120 @@
+<style>
+    .bbox_plus_hidden {
+        display: none;
+    }
+</style>
 <form id="bbox_plus_save_keyword_settings">
-    <p>
-        <label>
-            <input type="checkbox" name="googleVision" value="1" id="bbox_plus_form_google_vision_enabled">
-            Enable <a href="#">Google Vision</a> (Costs $ money per request but good quality)
-        </label>
-    </p>
-    <p>
-        <label>
-            <input type="checkbox" name="tensorFlow" id="bbox_plus_form_tensorflow_enabled" checked>
-            Enable <a href="#">TensorFlow</a> (Processed in the browser)
-        </label>
-    </p>
-    <p>
-        <label>
-            <input type="checkbox" name="analytics" id="bbox_plus_form_analytics_enabled" checked>
-            Enable <a href="#">Analytics</a> (Allows better TensorFlow processing over time)
-        </label>
-    </p>
+    <label>
+        <input type="checkbox" name="googleVision" value="1" id="bbox_plus_form_google_vision_enabled">
+        Enable <a href="#">Google Vision</a> (Costs $ money per request but good quality)
+    </label>
+    <br/>
+    <label>
+        <input type="checkbox" name="tensorFlow" id="bbox_plus_form_tensorflow_enabled" checked>
+        Enable <a href="#">TensorFlow</a> (Processed in the browser)
+    </label>
+    <br/>
+    <label>
+        <input type="checkbox" name="analytics" id="bbox_plus_form_analytics_enabled" checked>
+        Enable <a href="https://blackboxplus.greyphoenix.biz/#analytics">Analytics</a> (Allows better TensorFlow
+        processing over time)
+    </label>
+    <br/>
     <hr/>
     <h3>Google Vision Requests</h3>
-    <p>
-        <label>Google Vision Authentication JSON
-            <textarea id="bbox_plus_form_google_vision_auth"></textarea>
-        </label>
-    </p>
+    <label>Google Vision Authentication JSON<br/>
+        <textarea id="bbox_plus_form_google_vision_auth"></textarea>
+    </label>
+    <br/>
+    <!-- @todo: Get the select all / deselect all options working -->
+    <button id="bbox_plus_form_select_all_gv">Select All</button>
+    <br/>
+    <!--    <label id="bbox_plus_label_deselect_all_gv" class="bbox_plus_hidden">-->
+    <!--        <input type="checkbox" name="bbox_plus_deselect_all_gv" id="bbox_plus_form_deselect_all_gv">-->
+    <!--        Deselect all options-->
+    <!--        <br/>-->
+    <!--    </label>-->
 
-    <p>
-        <label>
-            <input type="checkbox" name="analytics" id="bbox_plus_form_gv_faces">
-            Enable <a href="https://cloud.google.com/vision/docs/detecting-faces" title="Face Detection detects multiple faces within an image along with the associated key facial attributes such as emotional state or wearing headwear">
-            Faces Detection</a>
-        </label>
-    </p>
-    <p>
-        <label>
-            <input type="checkbox" name="analytics" id="bbox_plus_form_gv_ocr">
-            Enable <a href="https://cloud.google.com/vision/docs/ocr" title="Detect and extract text from images">
-            OCR Detection</a>
-        </label>
-    </p>
+    <!-- Google Labels -->
+    <label>
+        <input type="checkbox" name="gv_labels" class="bbox_plus_gv" id="bbox_plus_form_gv_labels">
+        Enable <a href="https://cloud.google.com/vision/docs/ocr"
+                  title="Labels can identify general objects, locations, activities, animal species, products, and more">
+        Label Detection</a>
+    </label>
+    <br/>
+
+    <!-- Google Faces -->
+    <label>
+        <input type="checkbox" name="gv_faces" class="bbox_plus_gv" id="bbox_plus_form_gv_faces">
+        Enable <a href="https://cloud.google.com/vision/docs/detecting-faces"
+                  title="Face Detection detects multiple faces within an image along with the associated key facial attributes such as emotional state or wearing headwear">
+        Faces Detection</a>
+    </label>
+    <br/>
+
+    <!-- Google  OCR -->
+    <label>
+        <input type="checkbox" name="gv_ocr" class="bbox_plus_gv" id="bbox_plus_form_gv_ocr">
+        Enable <a href="https://cloud.google.com/vision/docs/ocr" title="Detect and extract text from images">
+        OCR Detection</a>
+    </label>
+    <br/>
+
+    <br/>
 </form>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+        let $googleVisionCheckboxes = $('.bbox_plus_gv[type=checkbox]');
+        $('#bbox_plus_form_select_all_gv').on('click', function (event) {
+            event.preventDefault(); // Stop form submission
+            let $this = $(this);
+            let allSelected = bbPlusIsGvAllSelected();
+            console.log(`Checking all the Google Vision options: ` + JSON.stringify(allSelected));
+            if (allSelected) {
+                // Deselecting them
+                console.log("DeSelecting the Google Vision Options");
+                $googleVisionCheckboxes.each(function () {
+                    $(this).prop('checked', false);
+                });
+                $this.text('Select All');
+            } else {
+                // Selecting them
+                console.log("Selecting the Google Vision Options");
+                $googleVisionCheckboxes.each(function () {
+                    $(this).prop('checked', true);
+                });
+                $this.text('Deselect All');
+            }
+        });
+
+        bbPlusIsGvAllSelected = function () {
+            let selected = true;
+            $googleVisionCheckboxes.each(function () {
+                if (!$(this).is(':checked')) {
+                    selected = false;
+                }
+            });
+            return selected;
+        };
+
+        setGvSelectAllButtonText = function() {
+            let $gvSelectAllButton = $('#bbox_plus_form_select_all_gv');
+            if (bbPlusIsGvAllSelected()) {
+                $gvSelectAllButton.text('Deselect All');
+            } else {
+                $gvSelectAllButton.text('Select All');
+            }
+        };
+
+        $('input').on('change', function (event) {
+            let $this = $(this);
+            console.log({checked: $this.is(':checked'), this: this, event});
+            setGvSelectAllButtonText();
+        });
+    });
+</script>

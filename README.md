@@ -124,6 +124,11 @@ https://cloud.google.com/vision/docs/object-localizer - Object Localiser. e.g Bi
 
 This functionality isn't tested on older browsers and isn't going to work on a mobile phone (how do you click the Bookmarklet?).
 
+## Analytics
+
+The Analytics functionality isn't implemented yet, but will send a copy of the processed frames and keywords to a server for further machine learning, 
+allowing creation of a custom TensorFlow model which provides more useful keywords without needing to use Google's Vision system.
+It learns from and provides benefits to people with the Analytics system enabled.
 
 ## Technical details
 
