@@ -68,6 +68,10 @@ Face Detection detects multiple faces within an image along with the associated 
 <p><a href="https://cloud.google.com/vision/docs/object-localizer">https://cloud.google.com/vision/docs/object-localizer</a> - Object Localiser. e.g Bicycle, Picture frame, Tire, Door</p>
 <h2 id="compatibility">Compatibility</h2>
 <p>This functionality isn&#39;t tested on older browsers and isn&#39;t going to work on a mobile phone (how do you click the Bookmarklet?).</p>
+<h2 id="analytics">Analytics</h2>
+<p>The Analytics functionality isn&#39;t implemented yet, but will send a copy of the processed frames and keywords to a server for further machine learning, 
+allowing creation of a custom TensorFlow model which provides more useful keywords without needing to use Google&#39;s Vision system.
+It learns from and provides benefits to people with the Analytics system enabled.</p>
 <h2 id="technical-details">Technical details</h2>
 <p>The <code>bookmarklet</code> looks like a bookmark but is a piece of Javascript code which runs when you click on it.
 This repo is available publicly in order for other developers to be able to review the code for any issues, learn how it works and also suggest any changes.</p>

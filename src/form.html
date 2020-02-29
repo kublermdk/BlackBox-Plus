@@ -5,30 +5,24 @@
 </style>
 <form id="bbox_plus_save_keyword_settings">
     <label>
-        <input type="checkbox" name="googleVision" value="1" id="bbox_plus_form_google_vision_enabled">
+        <input type="checkbox" name="feature_enabled_googleVision" value="1" id="bbox_plus_form_google_vision_enabled">
         Enable <a href="#">Google Vision</a> (Costs $ money per request but good quality)
     </label>
     <br/>
     <label>
-        <input type="checkbox" name="tensorFlow" id="bbox_plus_form_tensorflow_enabled" checked>
+        <input type="checkbox" name="feature_enabled_tensorFlow" id="bbox_plus_form_tensorflow_enabled" checked>
         Enable <a href="#">TensorFlow</a> (Processed in the browser)
     </label>
     <br/>
     <label>
-        <input type="checkbox" name="analytics" id="bbox_plus_form_analytics_enabled" checked>
+        <input type="checkbox" name="feature_enabled_analytics" id="bbox_plus_form_analytics_enabled" checked>
         Enable <a href="https://blackboxplus.greyphoenix.biz/#analytics">Analytics</a> (Allows better TensorFlow
         processing over time)
     </label>
     <br/>
     <hr/>
     <h3>Google Vision Requests</h3>
-    <label>Google Vision Authentication JSON<br/>
-        <textarea id="bbox_plus_form_google_vision_auth"></textarea>
-    </label>
-    <br/>
-    <button id="bbox_plus_form_save_google_vision_json">Save Authentication</button>
-    <br/>
-    <br/>
+
     <!-- @todo: Get the select all / deselect all options working -->
     <button id="bbox_plus_form_select_all_gv">Select All</button>
     <br/>
@@ -40,7 +34,7 @@
 
     <!-- Google Labels -->
     <label>
-        <input type="checkbox" name="gv_labels" class="bbox_plus_gv" id="bbox_plus_form_gv_labels" checked>
+        <input type="checkbox" name="gv_enabled_labels" class="bbox_plus_gv" id="bbox_plus_form_gv_labels" checked>
         Enable <a href="https://cloud.google.com/vision/docs/detecting-landmarks"
                   title="Labels can identify general objects, locations, activities, animal species, products, and more">
         Label Detection</a>
@@ -49,7 +43,7 @@
 
     <!-- Google Objects -->
     <label>
-        <input type="checkbox" name="gv_labels" class="bbox_plus_gv" id="bbox_plus_form_gv_objects" checked>
+        <input type="checkbox" name="gv_enabled_labels" class="bbox_plus_gv" id="bbox_plus_form_gv_objects" checked>
         Enable <a href="https://cloud.google.com/vision/docs/object-localizer"
                   title="Object localization identifies multiple objects">
         Object Detection</a>
@@ -58,7 +52,8 @@
 
     <!-- Google Landmarks -->
     <label>
-        <input type="checkbox" name="gv_labels" class="bbox_plus_gv" id="bbox_plus_form_gv_landmarks" checked>
+        <input type="checkbox" name="gv_enabled_landmarks" class="bbox_plus_gv" id="bbox_plus_form_gv_landmarks"
+               checked>
         Enable <a href="https://cloud.google.com/vision/docs/detecting-landmarks"
                   title="Detects popular natural and man-made structures">
         Landmark Detection</a>
@@ -67,7 +62,7 @@
 
     <!-- Google Faces -->
     <label>
-        <input type="checkbox" name="gv_faces" class="bbox_plus_gv" id="bbox_plus_form_gv_faces">
+        <input type="checkbox" name="gv_enabled_faces" class="bbox_plus_gv" id="bbox_plus_form_gv_faces">
         Enable <a href="https://cloud.google.com/vision/docs/detecting-faces"
                   title="Face Detection detects multiple faces, along with the associated key facial attributes such as emotional state or wearing headwear">
         Face Detection</a>
@@ -76,7 +71,7 @@
 
     <!-- Google  OCR -->
     <label>
-        <input type="checkbox" name="gv_ocr" class="bbox_plus_gv" id="bbox_plus_form_gv_ocr">
+        <input type="checkbox" name="gv_enabled_ocr" class="bbox_plus_gv" id="bbox_plus_form_gv_ocr">
         Enable <a href="https://cloud.google.com/vision/docs/ocr" title="Detect and extract text">
         OCR Detection</a>
     </label>
@@ -84,7 +79,7 @@
 
     <!-- Google Logos -->
     <label>
-        <input type="checkbox" name="gv_ocr" class="bbox_plus_gv" id="bbox_plus_form_gv_logos">
+        <input type="checkbox" name="gv_enabled_logos" class="bbox_plus_gv" id="bbox_plus_form_gv_logos">
         Enable <a href="https://cloud.google.com/vision/docs/detecting-logos" title="Detects popular product logos">
         Logo Detection</a>
     </label>
@@ -92,20 +87,26 @@
 
     <!-- Google Explicit Content (Safe Search) -->
     <label>
-        <input type="checkbox" name="gv_ocr" class="bbox_plus_gv" id="bbox_plus_form_gv_safe_search">
-        Enable <a href="https://cloud.google.com/vision/docs/detecting-safe-search" title="SafeSearch Detection detects explicit content such as adult content or violent content. This feature uses five categories (adult, spoof, medical, violence, and racy)">
+        <input type="checkbox" name="gv_enabled_safe_search" class="bbox_plus_gv" id="bbox_plus_form_gv_safe_search">
+        Enable <a href="https://cloud.google.com/vision/docs/detecting-safe-search"
+                  title="SafeSearch Detection detects explicit content such as adult content or violent content. This feature uses five categories (adult, spoof, medical, violence, and racy)">
         Explicit Content</a>
     </label>
     <br/>
 
     <!-- Google Similar Content -->
     <label>
-        <input type="checkbox" name="gv_ocr" class="bbox_plus_gv" id="bbox_plus_form_gv_similar_content">
-        Enable <a href="https://cloud.google.com/vision/docs/detecting-web" title="Detects Web entities and pages with similar content and a best guess at the labels">
+        <input type="checkbox" name="gv_enabled_similar_content" class="bbox_plus_gv"
+               id="bbox_plus_form_gv_similar_content">
+        Enable <a href="https://cloud.google.com/vision/docs/detecting-web"
+                  title="Detects Web entities and pages with similar content and a best guess at the labels">
         Similar Content</a>
     </label>
     <br/>
-
+    <label>Google Vision Authentication JSON<br/>
+        <textarea name="gv_authentication" id="bbox_plus_form_google_vision_auth"></textarea>
+    </label>
+    <br/>
     <br/>
 </form>
 
@@ -113,6 +114,7 @@
 <script>
     $(document).ready(function () {
 
+        let bbox_plus_localstorage_prefix = 'bboxp-';
 
         let $googleVisionCheckboxes = $('.bbox_plus_gv[type=checkbox]');
         $('#bbox_plus_form_select_all_gv').on('click', function (event) {
@@ -144,10 +146,14 @@
                     selected = false;
                 }
             });
+            // Wait for the DOM to catch up?
+            setTimeout(function () {
+                bbPlusSaveAllFormSettings();
+            }, 20);
             return selected;
         };
 
-        setGvSelectAllButtonText = function() {
+        bbPlusSetGvSelectAllButtonText = function () {
             let $gvSelectAllButton = $('#bbox_plus_form_select_all_gv');
             if (bbPlusIsGvAllSelected()) {
                 $gvSelectAllButton.text('Deselect All');
@@ -156,10 +162,60 @@
             }
         };
 
-        $('input').on('change', function (event) {
+        bbPlusSaveAllFormSettings = function () {
+            let savedFormSettingsCount = 0;
+            $('#bbox_plus_save_keyword_settings input[type=checkbox]').each(function (index) {
+                let $this = $(this);
+                localStorage.setItem(`${bbox_plus_localstorage_prefix}${this.name}`, $this.is(':checked'));
+                savedFormSettingsCount++;
+            });
+
+            $('#bbox_plus_save_keyword_settings textarea').each(function (index) {
+                let $this = $(this);
+                console.log({contents: $this.val(), this: this});
+                localStorage.setItem(`${bbox_plus_localstorage_prefix}${this.name}`, $this.val());
+                savedFormSettingsCount++;
+            });
+            console.debug(`Saved all ${savedFormSettingsCount} form settings to localStorage`);
+            return savedFormSettingsCount;
+        };
+
+        bbPlusLoadSettingsFromLocalStorage = function () {
+            let countOfSettingsLoaded = 0;
+            $('#bbox_plus_save_keyword_settings input[type=checkbox]').each(function (index) {
+                let $this = $(this);
+                let checkedText = localStorage.getItem(`${bbox_plus_localstorage_prefix}${this.name}`);
+                $this.prop('checked', checkedText === 'true');
+                countOfSettingsLoaded++;
+            });
+
+            $('#bbox_plus_save_keyword_settings textarea').each(function (index) {
+                let $this = $(this);
+                console.log({contents: $this.val(), this: this});
+                let contents = localStorage.getItem(`${bbox_plus_localstorage_prefix}${this.name}`);
+                $this.val(contents);
+                countOfSettingsLoaded++;
+            });
+            console.debug(`Loaded ${countOfSettingsLoaded} saved settings from localStorage`);
+            return countOfSettingsLoaded;
+        };
+
+        bbPlusLoadSettingsFromLocalStorage(); // Run on DOM ready
+
+
+        // Save the checkboxes changed states (to be bound after the settings have been loaded)
+        $('#bbox_plus_save_keyword_settings input[type=checkbox]').on('change', function (event) {
             let $this = $(this);
             console.log({checked: $this.is(':checked'), this: this, event});
-            setGvSelectAllButtonText();
+            bbPlusSetGvSelectAllButtonText();
+            localStorage.setItem(`${bbox_plus_localstorage_prefix}${this.name}`, $this.is(':checked')); // Saves as 'true' or 'false' the text
         });
+
+        $('#bbox_plus_save_keyword_settings textarea').on('change', function (event) {
+            let $this = $(this);
+            console.log({contents: $this.val(), this: this, event});
+            localStorage.setItem(`${bbox_plus_localstorage_prefix}${this.name}`, $this.val());
+        });
+
     });
 </script>
