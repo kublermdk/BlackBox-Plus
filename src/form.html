@@ -2,6 +2,10 @@
     .bbox_plus_hidden {
         display: none;
     }
+    label, button, input[type=checkbox] {
+        cursor: pointer;
+    }
+
 </style>
 <form id="bbox_plus_save_keyword_settings">
     <label>
@@ -124,7 +128,7 @@
             console.log(`Checking all the Google Vision options: ` + JSON.stringify(allSelected));
             if (allSelected) {
                 // Deselecting them
-                console.log("DeSelecting the Google Vision Options");
+                console.log("Deselecting the Google Vision Options");
                 $googleVisionCheckboxes.each(function () {
                     $(this).prop('checked', false);
                 });
@@ -146,7 +150,7 @@
                     selected = false;
                 }
             });
-            // Wait for the DOM to catch up?
+            // Waiting for the DOM to catch up
             setTimeout(function () {
                 bbPlusSaveAllFormSettings();
             }, 20);
@@ -172,11 +176,10 @@
 
             $('#bbox_plus_save_keyword_settings textarea').each(function (index) {
                 let $this = $(this);
-                console.log({contents: $this.val(), this: this});
                 localStorage.setItem(`${bbox_plus_localstorage_prefix}${this.name}`, $this.val());
                 savedFormSettingsCount++;
             });
-            console.debug(`Saved all ${savedFormSettingsCount} form settings to localStorage`);
+            // console.debug(`Saved all ${savedFormSettingsCount} form settings to localStorage`);
             return savedFormSettingsCount;
         };
 
@@ -196,7 +199,7 @@
                 $this.val(contents);
                 countOfSettingsLoaded++;
             });
-            console.debug(`Loaded ${countOfSettingsLoaded} saved settings from localStorage`);
+            // console.debug(`Loaded ${countOfSettingsLoaded} saved settings from localStorage`);
             return countOfSettingsLoaded;
         };
 
