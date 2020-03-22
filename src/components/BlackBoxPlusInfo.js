@@ -335,7 +335,7 @@ export default class BlackBoxPlusInfo {
      * @param str
      * @returns {DocumentFragment}
      */
-    createNewElement( str ) {
+    createNewElement(str) {
         let frag = document.createDocumentFragment();
         let elem = document.createElement('div');
         elem.innerHTML = str;
@@ -343,6 +343,42 @@ export default class BlackBoxPlusInfo {
             frag.appendChild(elem.childNodes[0]);
         }
         return frag;
+    }
+
+
+    getEditFormKeywords($form = null) {
+
+        // -----------------------------------------------------------
+        //  Get the Keyword Tags
+        // -----------------------------------------------------------
+        let tagElements = [];
+        if (!$form) {
+            tagElements = $('.tag__text.inline')
+        } else {
+            tagElements = $form.find('.tag__text.inline'); // Might need jQuery or Zepto for this?
+        }
+
+        if (!tagElements || tagElements.length === 0) {
+            return []; // None
+        }
+
+        let keywords = [];
+        for (let i in tagElements) {
+            let tagElement = tagElements[i];
+            if (tagElements.hasOwnProperty(i) && tagElement.textContent.trim()) {
+                keywords.push(tagElement.textContent);
+            }
+        }
+        // Example keywords (without the trim) = ["testing ", " and more testing ", " example of another "]
+
+
+        // @todo: Also add the value of the keyword field that a user hasn't pressed [Enter] on and created as a tag
+        // -----------------------------------------------------------
+        //  Get the Input field value (keyword to be added)
+        // -----------------------------------------------------------
+        return keywords;
+
+
     }
 
 }
